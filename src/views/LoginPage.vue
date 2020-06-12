@@ -98,8 +98,9 @@ export default {
                 password: this.password,
             }
             this.$store.dispatch('auth/login', formData).then(() => {
-                this.$router.push('/adminpage');
-            }, () => {
+                this.$router.push('/lkmain');
+            }, (error) => {
+                console.log(error)
                 this.authError = 1
             })
         }

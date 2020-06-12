@@ -34,7 +34,7 @@ const actions = {
 					commit('authUser', { email: authData.email, token: response.data.access_token });
 					localStorage.setItem('token', response.data.access_token);
 					localStorage.setItem('email', authData.email);
-					router.replace('/adminpage');
+					router.replace('/lkmain');
 					resolve(response)
 				} 
 				else {
