@@ -124,7 +124,6 @@
     }),
     methods: {
       logout(){
-        console.log('EFDF')
         this.$store.dispatch('auth/logout')
       }
     }
