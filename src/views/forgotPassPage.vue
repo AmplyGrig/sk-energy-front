@@ -22,8 +22,8 @@
                             Адрес электронной почты
                         </span>
                         <input 
-                            @focus="authError=0"
-                            @blur="authError=0" 
+                            @focus="authError=''"
+                            @blur="authError=''" 
                             v-model.trim="$v.email.$model" 
                             class="input100" 
                             type="text" 
@@ -39,7 +39,7 @@
                             </template>
                         </p>
                         <p class="validate-error" v-if="authError">
-                        Ошибка авторизации. <br>Неверно введен логин или пароль.
+                        {{authError}}
                         </p>
                     </div>
                     <div class="container-login100-form-btn m-t-32">
@@ -66,7 +66,7 @@ export default {
         return {
             email: '',
             forgotStep: 1,
-            authError: 0
+            authError: ''
         }
     },
     methods: {
@@ -75,8 +75,7 @@ export default {
                 this.forgotStep++
                 setTimeout( () => this.$router.push({ path: '/'}), 5000);
             }).catch((error) => {
-                console.log(error.response)
-                this.authError = 1
+                this.authError = error.response.data.reasons[0]
             })
         }
     },

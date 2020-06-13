@@ -15,8 +15,8 @@
                         </span>
                         <input 
                             v-model.trim="$v.password.$model" 
-                            @focus="authError=0"
-                            @blur="authError=0"  
+                            @focus="authError=''"
+                            @blur="authError=''"  
                             class="input100" 
                             type="password" 
                             placeholder="Введите новый пароль"
@@ -39,8 +39,8 @@
                         </span>
                         <input 
                             v-model.trim="$v.newPassword.$model"
-                            @focus="authError=0"
-                            @blur="authError=0"  
+                            @focus="authError=''"
+                            @blur="authError=''"  
                             class="input100" 
                             type="password" 
                             placeholder="Введите новый пароль еще раз"
@@ -54,7 +54,7 @@
                             </template>
                         </p>
                         <p class="validate-error" v-if="authError">
-                        Ошибка смены пароля
+                        {{authError}}
                         </p>
                     </div>
                     <div class="container-login100-form-btn m-t-32">
@@ -81,7 +81,7 @@ export default {
             password: '',
             newPassword: '',
             forgotStep: 1,
-            authError: 0
+            authError: ''
         }
     },
     props: ['token'],
@@ -94,8 +94,8 @@ export default {
             axiosAuth.post('/api/reset-password-with-token', reqData).then(() => {
                 this.forgotStep++
                 setTimeout( () => this.$router.push({ path: '/lkmain'}), 5000);
-            }).catch(() => {
-                this.authError = 1
+            }).catch((error) => {
+                this.registrationError = error.response.data.reasons[0]
             })
         }
     },

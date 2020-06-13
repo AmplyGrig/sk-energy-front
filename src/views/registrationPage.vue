@@ -264,20 +264,13 @@ export default {
                 "company_name": this.companyname,
                 "password": this.password,
             }
-            authAxios.post('/api/register', dataToPost).then(response => {
-                console.log(response)
+            authAxios.post('/api/register', dataToPost).then(() => {
                 this.registrationStep++
                 setTimeout(() => {
                     this.$router.push({path: '/'})
                 }, 5000)
             }).catch((error) =>{
-                console.log(error.response)
-                if (error.response.status === 500){
-                    this.registrationError = "Сервис недоступен"
-                }
-                else{
-                    this.registrationError = error.response.data.reasons[0]
-                }
+                this.registrationError = error.response.data.reasons[0]
             })
         }
     },
