@@ -21,7 +21,7 @@
             class="pa-2"
           >
             {{ month[n-1].label }}
-            <v-row :class="{'d-none':page=='false'}" class="mx-1 align-center" justify="space-between" ><v-btn icon color="#232020"><v-icon>mdi-download</v-icon></v-btn><v-btn icon color="#232020">
+            <v-row :class="{'d-none':page=='false'}" class="mx-1 align-center" justify="space-between" ><v-btn icon color="#232020"><v-icon>mdi-download</v-icon></v-btn><v-btn icon color="#232020" @click="sheet = !sheet">
             <v-icon>mdi-menu-down</v-icon></v-btn></v-row>
              <v-row :class="{'d-none':page=='true'}" class="mx-2" justify="end"><v-file-input :v-name=" month[n-1].key " multiple label="File input"></v-file-input></v-row>
           </v-card>

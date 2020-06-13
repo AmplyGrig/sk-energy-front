@@ -1,7 +1,6 @@
 <template>
+<div>
           <v-row
-
-          :align="alignment"
           justify="space-between"
           class="ma-auto grey lighten-5"
         >
@@ -15,18 +14,33 @@
           >
             <span class="logoMainDoc">{{item.label}}</span>
             <v-file-input :class="{'d-none':page=='true'}" :v-name="item.key"  label="Загрузить"></v-file-input>
-            <v-row :class="{'d-none':page=='false'}" class="mr-2 align-center" justify="space-between" ><v-btn class="ma-2" color="#232020" style="color:white;">Скачать</v-btn><v-btn icon color="#232020">
-            <v-icon>mdi-menu-down</v-icon></v-btn></v-row>
+            <v-row :class="{'d-none':page=='false'}" class="mr-2 align-center" justify="space-between" ><v-btn class="ma-2" color="#232020" style="color:white;">Скачать</v-btn><v-btn icon color="#232020" @click="sheet = !sheet">
+            <v-icon>mdi-menu-down</v-icon></v-btn>
+
+            </v-row>
           </v-card>
         </v-row>
+    <v-bottom-sheet v-model="sheet">
+      <v-sheet class="text-center" height="200px">
+        <v-btn
+          class="mt-6"
+          text
+          color="red"
+          @click="sheet = !sheet"
+        >close</v-btn>
+        <div class="py-3">This is a bottom sheet using the controlled by v-model instead of activator</div>
+      </v-sheet>
+    </v-bottom-sheet>
+    </div>
 </template>
 <script>
-
+import bottomSheet from "@/components/bottom-sheet.vue"
 export default {
     name: "mainDocs",
     props: ['page'],
    data() {
     return {
+        sheet: false,
         isActive:false,
         items: [
             {
@@ -96,5 +110,8 @@ export default {
 }
 .main-doc-item .v-input {
     width: 80%;
+}
+.v-dialog__container {
+    display: block!important;
 }
 </style>

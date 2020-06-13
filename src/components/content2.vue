@@ -86,7 +86,7 @@ export default {
     border-radius: 50%;
     border: 3px white solid;
     left: 50%;
-    bottom: -34px;
+    bottom: -50px;
 }
 .how-we-work .step-work-down p {
   color: #f9f6f3;
