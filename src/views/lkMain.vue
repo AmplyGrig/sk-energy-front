@@ -145,5 +145,11 @@ import mainDocs from "@/views/mainDocs.vue";
 .v-navigation-drawer__content .v-list-item__title {
     font-size: 17px!important;
 }
-
+.container.fill-height {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 100%!important;
+    min-height: 100vh!important;
+}
 </style>

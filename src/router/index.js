@@ -123,13 +123,13 @@ const routes = [
     path:"/lkadmin",
     name:"admin",
     component: lkadmin,
-    meta: { requiresAuth: true, requiresRole: [Role.admin] }
+    meta: { requiresAuth: true, requiresRole: [Role.user] }
   },
   {
     path:"/lkadmin/:item",
     name:"admin",
     component: lkadminItem,
-    meta: { requiresAuth: true, requiresRole: [Role.admin]}
+    meta: { requiresAuth: true, requiresRole: [Role.user]}
   }
 ];
 
