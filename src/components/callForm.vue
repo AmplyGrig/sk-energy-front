@@ -164,7 +164,6 @@ export default {
 }
 .b-popup-content {
     background-color: #1D1D1B;
-    min-width: 500px;
     max-width: 500px;
     margin: 200px auto;
     box-sizing: border-box;
