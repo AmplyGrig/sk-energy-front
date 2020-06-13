@@ -5,7 +5,8 @@
                 Подтверждение почты
             </span>
             <form class="login100-form validate-form p-b-33 p-t-5">
-                <p>Почта успешно подтверждена. Вы автоматически будуте перенаправлены на главную страницу.</p>
+                <p v-if="!approveError">Почта успешно подтверждена. Вы автоматически будуте перенаправлены на главную страницу.</p>
+                <p v-else>{{approveError}}</p>
             </form>
         </div>
     </div>
@@ -15,12 +16,23 @@
 import axiosAuth from "@/api/axios-auth"
 export default {
     props: ['token'],
+    data() {
+        return {
+            approveError: ''
+        }
+    },
     beforeCreate(){
-        axiosAuth.post('/approve-mail', {token: this.$options.propsData.token}).then(response => {
-            console.log(response)
+        axiosAuth.post('/api/approve-email', {token: this.$options.propsData.token}).then( () => {
             setTimeout(() => {
                 this.$router.push({path: '/'})
             }, 5000)
+        }).catch(error => {
+            if (error.response.status >= 500){
+                this.approveError = 'Произошла ошибка, почтовый адрес не подтвержден, попробуйте еще раз.'
+            }
+            else{
+                this.approveError = error.response.data.reasons[0]
+            }
         })
     }
 }

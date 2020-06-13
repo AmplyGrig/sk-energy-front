@@ -20,8 +20,8 @@
                     </span>
                     <input 
                         v-model.trim="$v.email.$model"
-                        @focus="authError=0"
-                        @blur="authError=0" 
+                        @focus="authError=''"
+                        @blur="authError=''" 
                         class="input100" 
                         type="text" 
                         name="email" 
@@ -42,8 +42,8 @@
                     </span>
                     <input 
                         v-model.trim="$v.password.$model" 
-                        @focus="authError=0"
-                        @blur="authError=0" 
+                        @focus="authError=''"
+                        @blur="authError=''" 
                         class="input100" 
                         type="password" 
                         name="pass" 
@@ -61,7 +61,7 @@
                         </template>
                     </p>
                     <p class="validate-error" v-if="authError">
-                    Ошибка авторизации. <br>Неверно введен логин или пароль.
+                    Ошибка авторизации. <br> {{authError}}
                     </p>
                     <router-link to="/forgot-password" class="forgot-password">
                         Забыли пароль?
@@ -88,7 +88,7 @@ export default {
             email: '',
             password: '',
             invalidCredentials: false,
-            authError: 0
+            authError: ''
         }
     },
     methods: {
@@ -100,8 +100,7 @@ export default {
             this.$store.dispatch('auth/login', formData).then(() => {
                 this.$router.push('/lkmain');
             }, (error) => {
-                console.log(error)
-                this.authError = 1
+                this.authError = error.response.data.reasons[0]
             })
         }
     },

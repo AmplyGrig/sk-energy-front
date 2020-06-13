@@ -264,7 +264,7 @@ export default {
                 "company_name": this.companyname,
                 "password": this.password,
             }
-            authAxios.post('/auth/register', dataToPost).then(response => {
+            authAxios.post('/api/register', dataToPost).then(response => {
                 console.log(response)
                 this.registrationStep++
                 setTimeout(() => {

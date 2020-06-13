@@ -26,7 +26,7 @@ const getters = {
 const actions = {
 	login: ({commit}, authData) => {
 		return new Promise((resolve, reject) => {
-			axios.post('/auth', {
+			axios.post('/api', {
 				email: authData.email,
 				password: authData.password,
 			}).then(response => {
@@ -40,8 +40,8 @@ const actions = {
 				else {
 					resolve(response);
 				}
-			}).catch(() => {
-				reject();
+			}).catch((error) => {
+				reject(error);
 			})
 		})
 	},
@@ -59,7 +59,7 @@ const actions = {
 		commit('clearAuthData');
 		localStorage.removeItem('email');
 		localStorage.removeItem('token');
-		router.replace('sign_in');
+		router.replace('/sign-in');
 	},
 };
 

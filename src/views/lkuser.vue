@@ -72,7 +72,7 @@
          <v-col cols="2">
           Мой профиль
           </v-col>
-          <v-btn class="ma-2" outlined color="#232020">Выйти</v-btn>
+          <v-btn @click="logout()" class="ma-2" outlined color="#232020">Выйти</v-btn>
         </v-row>
         </v-card>
 
@@ -240,8 +240,12 @@
     data: () => ({
       drawer: null,
     }),
-    created () {
-    },
+    methods: {
+      logout(){
+        console.log('EFDF')
+        this.$store.dispatch('auth/logout')
+      }
+    }
   }
 </script>
 <style>

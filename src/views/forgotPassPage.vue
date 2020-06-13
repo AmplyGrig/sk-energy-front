@@ -71,7 +71,7 @@ export default {
     },
     methods: {
         onSubmit(){
-            axiosAuth.post('/reset-password', {"email" : this.email} ).then(() => {
+            axiosAuth.post('/api/reset-password', {"email" : this.email} ).then(() => {
                 this.forgotStep++
                 setTimeout( () => this.$router.push({ path: '/'}), 5000);
             }).catch((error) => {

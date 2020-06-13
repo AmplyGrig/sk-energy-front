@@ -21,6 +21,7 @@ import registrationPage from "@/views/registrationPage"
 import { VueResponsiveComponents } from "vue-responsive-components"
 import approveMail from "@/views/approveMail"
 import axiosAuth from '@/api/axios-auth'
+import { Role } from '@/_helpers/role';
 
 Vue.use(VueResponsiveComponents);
 
@@ -73,14 +74,14 @@ const routes = [
     component: forgotPassPage
   },
   {
-    path: "/reset-password-with-token",
+    path: "/api/reset-password",
     name: 'reset_password',
     component: recoveryPassPage,
     props: (route) => ({ token: route.query.token })
   },
   {
-    path: "/approve-mail",
-    name: 'approve_mail',
+    path: "/api/approve-email",
+    name: 'approve_email',
     component: approveMail,
     props: (route) => ({ token: route.query.token })
   },
@@ -98,37 +99,37 @@ const routes = [
     path:"/lksettings",
     name:"lk",
     component: lkuser,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresRole: [Role.user] }
   },
   {
     path:"/lkmain",
     name:"lk",
     component: lkMain,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresRole: [Role.user] }
   },
   {
     path:"/list",
     name:"lk",
     component: simpleList,
-    meta: { requiresAuth: true }
-  }
-  ,
+    meta: { requiresAuth: true, requiresRole: [Role.user] }
+  },
   {
     path:"/lkabout",
     name:"lk",
-    component: lkAbout
-  }
-  ,
+    component: lkAbout,
+    meta: { requiresAuth: true, requiresRole: [Role.user]}
+  },
   {
     path:"/lkadmin",
     name:"admin",
-    component: lkadmin
-  }
-  ,
+    component: lkadmin,
+    meta: { requiresAuth: true, requiresRole: [Role.admin] }
+  },
   {
     path:"/lkadmin/:item",
     name:"admin",
-    component: lkadminItem
+    component: lkadminItem,
+    meta: { requiresAuth: true, requiresRole: [Role.admin]}
   }
 ];
 
@@ -138,15 +139,18 @@ const router = new VueRouter({
   routes
 });
 
+const urlClosed = [
+  '/sign-up',
+  '/forgot-password',
+  '/reset-password-with-token',
+  '/approve-mail',
+]
+
 router.beforeEach((to, from, next) => {
-	let token = localStorage.getItem('token');
+  let token = localStorage.getItem('token');
+
+  let requireRole = to.meta.requiresRole;
   let requireAuth = to.matched.some(record => record.meta.requiresAuth);
-  let urlClosed = [
-    '/sign-up',
-    '/forgot-password',
-    '/reset-password-with-token',
-    '/approve-mail',
-  ]
   
   if (!requireAuth) {
 		next();
@@ -156,14 +160,14 @@ router.beforeEach((to, from, next) => {
 		next('/sign-in');
 	}
 
-	if (to.path === '/sign-in' || to.path === '/sign-up') {
+	if (to.path === '/sign-in' || to.path === '/sign-up' || (urlClosed.indexOf(to.path) != -1)) {
 		if (token) {
-			axiosAuth.get('/auth/verify').then(response => {
+			axiosAuth.get('/api/verify').then(response => {
         if (response.data.valid === true) {
 				  next(from);
         }
         else{
-          next(to.path)
+          next()
         }
 			}).catch(() => {
 				next();
@@ -174,12 +178,8 @@ router.beforeEach((to, from, next) => {
 		}
   }
 
-  if ((urlClosed.indexOf(to.path) != -1) && token){
-    next('/')
-  }
-
 	if (requireAuth && token) {
-		axiosAuth.get('/auth/verify').then(response => {
+		axiosAuth.get('/api/verify').then(response => {
 			if (response.data.valid === true) {
         next();
       }
@@ -189,7 +189,17 @@ router.beforeEach((to, from, next) => {
 		}).catch(() => {
 			next('/sign-in');
 		})
-	}
+  }
+
+  if (requireRole) {
+    axiosAuth.get('/api/me').then(response => {
+      if (!requireRole.includes(response.data.me.role)){
+        next('/')
+      }
+    }).catch(() =>{
+      next()
+    })
+  }
 });
 
 export default router;

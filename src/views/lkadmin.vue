@@ -116,16 +116,18 @@
 </template>
 <script> 
   export default {
-     components: {
-  },
     props: {
       source: String,
     },
     data: () => ({
       drawer: null,
     }),
-    created () {
-    },
+    methods: {
+      logout(){
+        console.log('EFDF')
+        this.$store.dispatch('auth/logout')
+      }
+    }
   }
 </script>
 <style>
