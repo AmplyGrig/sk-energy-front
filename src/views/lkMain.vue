@@ -19,7 +19,7 @@
           <v-list-item-action>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title class="userName">Имя Фамилия</v-list-item-title>
+            <v-list-item-title class="userName">{{name}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link to="/lkmain">
@@ -30,6 +30,24 @@
             <v-list-item-title>Главная</v-list-item-title>
           </v-list-item-content>
         </v-list-item> 
+        <v-list-item v-for="item in objectsItems" v-bind:key="item._id" :to="'/lkmain/'+item._id">
+          <v-list-item-content>
+            <v-list-item-title>{{item.object_name}}</v-list-item-title>
+          </v-list-item-content>
+           <v-list-item-action @click="deleteObject(item.object_name, item._id)">
+            <v-btn icon>
+              <v-icon color="grey lighten-1">mdi-delete</v-icon>
+            </v-btn>
+          </v-list-item-action>
+        </v-list-item>
+        <v-list-item @click="addObject('Object ' + objectCounterName++)">
+          <v-btn icon>
+            <v-icon color="grey lighten-1">mdi-plus</v-icon>
+          </v-btn>
+          <v-list-item-content>
+            <v-list-item-title>Добавить объект</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item> 
         <v-list-item link to="/lkabout">
           <v-list-item-action>
             <v-icon>mdi-flash</v-icon>
@@ -38,7 +56,7 @@
             <v-list-item-title>Об энергосервисе</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="lksettings">
+        <v-list-item link to="/lksettings">
           <v-list-item-action>
             <v-icon>mdi-account-circle</v-icon>
           </v-list-item-action>
@@ -114,19 +132,51 @@
 import coolList from "@/views/adminPage.vue";
 import simpleList from "@/views/simpleList.vue";
 import mainDocs from "@/views/mainDocs.vue";
+import axiosAuth from "@/api/axios-auth"
+
   export default {
-     components: {
-    coolList,
-    simpleList,
-    mainDocs
-  },
+    components: {
+      coolList,
+      simpleList,
+      mainDocs
+    },
     props: {
       source: String,
     },
-    data: () => ({
-      drawer: null,
-    }),
+    data() {
+      return{
+        drawer: null,
+        objectsItems: [],
+        objectCounterName: 1,
+        name: localStorage.getItem('email')
+      }
+    },
+    methods: {
+      addObject(objectName){
+        axiosAuth.post('/add-object', { object_name: objectName}).then(() => {
+          this.getObjectList()
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+      deleteObject(objectName, objectId){
+        axiosAuth.post('/delete-object', { object_name: objectName, object_id: objectId}).then(() => {
+          this.getObjectList()
+          this.$router.replace({name: 'lk_main'})
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+      getObjectList(){
+        axiosAuth.get('/get-object-list').then(response => {
+          this.objectsItems = response.data.objects
+        }).catch(error => {
+          console.log(error)
+        })
+      }
+    },
     created () {
+      this.getObjectList()
     },
   }
 </script>

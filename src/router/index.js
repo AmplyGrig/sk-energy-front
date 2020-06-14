@@ -103,7 +103,13 @@ const routes = [
   },
   {
     path:"/lkmain",
-    name:"lk",
+    name:"lk_main",
+    component: lkMain,
+    meta: { requiresAuth: true, requiresRole: [Role.user] }
+  },
+  {
+    path:"/lkmain/:item",
+    name:"lk_item",
     component: lkMain,
     meta: { requiresAuth: true, requiresRole: [Role.user] }
   },
