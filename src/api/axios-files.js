@@ -7,8 +7,9 @@ const instance = axios.create({
             toString() {
                 return `Bearer ${localStorage.getItem('token')}`
             }
-        }
-    }
+        },
+        'Content-Type': 'multipart/form-data',
+    },
 });
 
 export default instance
