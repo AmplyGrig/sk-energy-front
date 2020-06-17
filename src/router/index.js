@@ -129,13 +129,13 @@ const routes = [
     path:"/lkadmin",
     name:"admin",
     component: lkadmin,
-    meta: { requiresAuth: true, requiresRole: [Role.admin, Role.user] }
+    meta: { requiresAuth: true, requiresRole: [Role.admin] }
   },
   {
     path:"/lkadmin/:item",
     name:"admin",
     component: lkadminItem,
-    meta: { requiresAuth: true, requiresRole: [Role.user]}
+    meta: { requiresAuth: true, requiresRole: [Role.admin]}
   }
 ];
 
@@ -199,8 +199,14 @@ router.beforeEach((to, from, next) => {
 
   if (requireRole) {
     axiosAuth.get('/api/me').then(response => {
-      if (!requireRole.includes(response.data.me.role)){
-        next('/')
+      // console.log(response.data.me.role)
+      // if (!requireRole.includes(response.data.me.role[0])){
+      //   next('/')
+      // }
+      if (response.data.me.role[0] == 'user'){
+        next('/lkmain')
+      } else if (response.data.me.role[0] == 'admin'){
+        next('/lkadmin')
       }
     }).catch(() =>{
       next()

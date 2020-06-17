@@ -1,17 +1,17 @@
 <template>
-<div>
-          <v-row
-          justify="space-between"
-          class="ma-auto grey lighten-5"
+    <div>
+    <v-row
+        justify="space-between"
+        class="ma-auto grey lighten-5"
         >
-          <v-card
+        <v-card
             v-for="(item) in main_files"
             :key="item.key"
             v-class="{active: item.isActive}"
             class="pa-3 flex-column main-doc-item"  
             justify="space-between"
             width="16.5%"
-          >
+            >
             <span class="logoMainDoc">{{item.label}}</span>
             <v-file-input v-if="item.isAppload===false"
                 v-model="item.file"
@@ -30,21 +30,31 @@
                 label="Загрузить другой">
             </v-file-input>
             <v-row :class="{'d-none':page=='false'}" class="mr-2 align-center" justify="space-between" >
-                <v-btn class="ma-2" color="#232020" style="color:white;" @click="downloadFile(item.key)">Скачать</v-btn><v-btn icon color="#232020" @click="sheet = !sheet">
-                <v-icon>mdi-menu-down</v-icon></v-btn>
+                <v-btn 
+                    class="ma-2" 
+                    color="#232020"
+                    style="color:white;" 
+                    @click="downloadFile(item.key)"
+                    :disabled="item.isAppload === false"
+                >
+                    Скачать
+                </v-btn>
+                <v-btn icon color="#232020" @click="sheet = !sheet">
+                <v-icon>mdi-menu-down</v-icon>
+                </v-btn>
             </v-row>
-          </v-card>
-        </v-row>
+        </v-card>
+    </v-row>
     <v-bottom-sheet v-model="sheet">
-      <v-sheet class="text-center" height="200px">
-        <v-btn
-          class="mt-6"
-          text
-          color="red"
-          @click="sheet = !sheet"
-        >close</v-btn>
-        <div class="py-3">This is a bottom sheet using the controlled by v-model instead of activator</div>
-      </v-sheet>
+        <v-sheet class="text-center" height="200px">
+            <v-btn
+                class="mt-6"
+                text
+                color="red"
+                @click="sheet = !sheet"
+                >close</v-btn>
+            <div class="py-3">This is a bottom sheet using the controlled by v-model instead of activator</div>
+        </v-sheet>
     </v-bottom-sheet>
     </div>
 </template>
@@ -112,7 +122,11 @@ export default {
             for (var key in this.main_files){
                 if (this.main_files[key].isAppload == false){
                     if (this.main_files[key].file){
-                        formData.append('object_file', this.main_files[key].file, this.main_files[key].file.name)
+                        formData.append(
+                            'object_file', 
+                            this.main_files[key].file, 
+                            this.main_files[key].file.name
+                        )
                         formData.append('object_id', this.$route.params.item)
                         formData.append('object_type', key)
                     }
@@ -120,32 +134,32 @@ export default {
             }
             axiosFiles.post('/upload-main-file', formData).then(() => {
                 this.getUploadedMainFiles()
+            }).catch(error => {
+                console.log(error)
+                this.$alert('Не удалось загрузить файл')
             })
         },
         getUploadedMainFiles(){
             axiosAuth.post('/get-main-files', { object_id: this.$route.params.item} ).then(response => {
-                console.log(response.data.uploaded_files)
                 for (let key in response.data.uploaded_files){
                     this.main_files[key].isAppload = true
                 }
             }).catch(error => {
                 console.log(error)
+                this.$alert('Не удалось загрузить статус основных файлов')
             })
         },
         downloadFile(object_key){
-            console.log(this.$route.params.item)
-            console.log(object_key)
             axiosAuth.post('/download-file', { object_id: this.$route.params.item, object_key: object_key}, {responseType: "blob"} ).then(response => {
-                console.log(response)
                 const url = window.URL.createObjectURL(response.data);
-                console.log(url)
                 const link = document.createElement('a');
                 link.href = url;
                 link.setAttribute('download', object_key + response.data.type.split('/')[1]);
                 document.body.appendChild(link);
                 link.click();
             }).catch(error => {
-                console.log(error)
+                console.log(error.response)
+                this.$alert('Не удалось скачать файл')
             })
         }
     },
