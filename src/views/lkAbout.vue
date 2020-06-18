@@ -1,85 +1,4 @@
 <template>  
-<div>
-   <v-navigation-drawer
-      v-model="drawer"
-      app
-      clipped
-      class="dark flex-column"
-    >
-      <v-list dense class="mainmenulk">
-        <v-list-item >
-          <v-list-item-action>
-            <v-img src="@/assets/img/3.png" contain  height="50px" width="50px"></v-img>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title class="logolk">Личный кабинет</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-           <v-list-item >
-          <v-list-item-action>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title class="userName">{{ name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-          <v-list-group>
-            <template v-slot:activator :expand="True">
-              <v-list-item-action>
-                <v-icon>mdi-view-dashboard</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>Объекты</v-list-item-title>
-              </v-list-item-content>
-            </template>
-            <v-list-item v-for="item in objectsItems" v-bind:key="item._id" :to="'/lkmain/'+item._id">
-                <v-list-item-content>
-                  <v-list-item-title>{{item.object_name}}</v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-action @click.prevent="deleteObject(item.object_name, item._id)">
-                  <v-btn icon>
-                      <v-icon color="grey lighten-1">mdi-delete</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-            </v-list-item>
-            <v-list-item @click="addObject()">
-                <v-btn icon>
-                  <v-icon color="grey lighten-1">mdi-plus</v-icon>
-                </v-btn>
-                <v-list-item-content>
-                  <v-list-item-title>Добавить объект</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-          </v-list-group>
-        <v-list-item link to="/lkabout">
-          <v-list-item-action>
-            <v-icon>mdi-flash</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Об энергосервисе</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link to="lksettings">
-          <v-list-item-action>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Личный кабинет</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-list dense>
-        <v-list-item @click.stop="right = !right">
-          <v-list-item-action>
-            <v-icon>mdi-exit-to-app</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Log out</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-content>
       <v-container
         class="fill-height lk-body"
         fluid
@@ -105,56 +24,9 @@
 
 
       </v-container>
-    </v-content>
-    
-    
-</div>
 </template>
 <script> 
-import axiosAuth from "@/api/axios-auth"
 export default {
-  props: {
-    source: String,
-  },
-  data: () => ({
-    drawer: null,
-    objectsItems: [],
-    name: localStorage.getItem('email')
-  }),
-  methods: {
-    addObject(){
-      this.$prompt("Введите название объекта").then((text) => {
-        axiosAuth.post('/add-object', { object_name: text}).then(() => {
-          this.getObjectList()
-        }).catch(error => {
-          console.log(error)
-          this.$alert('Не удалось добавить объект')
-        })
-      })
-    },
-    deleteObject(objectName, objectId){
-      this.$confirm("Вы уверены, что хотите удалить объект?").then(() => {
-        axiosAuth.post('/delete-object', { object_name: objectName, object_id: objectId}).then(() => {
-          this.getObjectList()
-          this.$router.replace({name: 'lk_main'})
-        }).catch(error => {
-          console.log(error)
-          this.$alert('Не удалось удалить объект')
-        })
-      });
-    },
-    getObjectList(){
-      axiosAuth.get('/get-object-list').then(response => {
-        this.objectsItems = response.data.objects
-      }).catch((error) => {
-        console.log(error)
-        this.$alert('Не удалось получить список объектов')
-      })
-    }
-  },
-  created () {
-    this.getObjectList()
-  },
 }
 </script>
 <style>
