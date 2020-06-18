@@ -108,7 +108,7 @@ const routes = [
       { path: "notify", component: lkNotify },
       { path: "settings", component: lkuser },
     ],
-    meta: { requiresAuth: true, requiresRole: [Role.user]}
+    // meta: { requiresAuth: true, requiresRole: [Role.user]}
   },
   {
     path:"/lkadmin", 

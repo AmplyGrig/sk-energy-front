@@ -176,7 +176,7 @@ export default {
                 showCloseButton: true,
                 focusConfirm: false,
                 confirmButtonText:'Продолжить',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
+                confirmButtonAriaLabel: '',
             });
         }
     },
@@ -220,5 +220,11 @@ export default {
 }
 .v-dialog__container {
     display: block!important;
+}
+.v-input__append-inner {
+    display: none!important;
+}
+.v-file-input__text {
+    font-size: 0!important;
 }
 </style>
