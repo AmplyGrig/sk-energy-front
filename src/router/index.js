@@ -9,7 +9,6 @@ import contactPage from "@/views/contactPage";
 import policyPage from "@/views/policyPage";
 import lkuser from "@/views/lkuser";
 import lkMain from "@/views/lkMain";
-import simpleList from "@/views/simpleList";
 import lkAbout from "@/views/lkAbout"
 import lkadmin from "@/views/lkadmin"
 import lkadminItem from "@/views/lkadminItem"
@@ -22,6 +21,9 @@ import { VueResponsiveComponents } from "vue-responsive-components"
 import approveMail from "@/views/approveMail"
 import axiosAuth from '@/api/axios-auth'
 import { Role } from '@/_helpers/role';
+import lkTemplate from "@/views/lkTemplate";
+import lkAdminTemplate from "@/views/lkAdminTemplate";
+import lkNotify from "@/views/lkNotify";
 
 Vue.use(VueResponsiveComponents);
 
@@ -96,45 +98,26 @@ const routes = [
     component: page404
   },
   {
-    path:"/lksettings",
+    path:"/lk", 
     name:"lk",
-    component: lkuser,
-    meta: { requiresAuth: true, requiresRole: [Role.user] }
-  },
-  {
-    path:"/lkmain",
-    name:"lk_main",
-    component: lkMain,
-    meta: { requiresAuth: true, requiresRole: [Role.user] }
-  },
-  {
-    path:"/lkmain/:item",
-    name:"lk_item",
-    component: lkMain,
-    meta: { requiresAuth: true, requiresRole: [Role.user] }
-  },
-  {
-    path:"/list",
-    name:"lk",
-    component: simpleList,
-    meta: { requiresAuth: true, requiresRole: [Role.user] }
-  },
-  {
-    path:"/lkabout",
-    name:"lk",
-    component: lkAbout,
+    component: lkTemplate,
+    children: [
+      { path: "", component: lkMain },
+      { path: "main/:item", component: lkMain },
+      { path: "about", component: lkAbout },
+      { path: "notify", component: lkNotify },
+      { path: "settings", component: lkuser },
+    ],
     meta: { requiresAuth: true, requiresRole: [Role.user]}
   },
   {
-    path:"/lkadmin",
-    name:"admin",
-    component: lkadmin,
-    meta: { requiresAuth: true, requiresRole: [Role.admin] }
-  },
-  {
-    path:"/lkadmin/:item",
-    name:"admin",
-    component: lkadminItem,
+    path:"/lkadmin", 
+    name:"lkadmin",
+    component: lkAdminTemplate,
+    children: [
+      { path: "", component: lkadmin },
+      { path: ":item", component: lkadminItem },
+    ],
     meta: { requiresAuth: true, requiresRole: [Role.admin]}
   }
 ];

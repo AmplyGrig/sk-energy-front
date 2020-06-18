@@ -1,84 +1,4 @@
 <template>  
-  <div class="mainLk">
-    <v-navigation-drawer
-        v-model="drawer"
-        app
-        clipped
-        class="dark flex-column"
-        >
-        <v-list dense class="mainmenulk">
-          <v-list-item >
-              <v-list-item-action>
-                <v-img src="@/assets/img/3.png" contain  height="50px" width="50px"></v-img>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title class="logolk">Личный кабинет</v-list-item-title>
-              </v-list-item-content>
-          </v-list-item>
-          <v-list-item >
-              <v-list-item-action>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title class="userName">{{ name }}</v-list-item-title>
-              </v-list-item-content>
-          </v-list-item>
-          <v-list-group value="true">
-            <template v-slot:activator :expand="True">
-              <v-list-item-action>
-                <v-icon>mdi-view-dashboard</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>Объекты</v-list-item-title>
-              </v-list-item-content>
-            </template>
-            <v-list-item v-for="item in objectsItems" v-bind:key="item._id" :to="'/lkmain/'+item._id">
-                <v-list-item-content>
-                  <v-list-item-title>{{item.object_name}}</v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-action @click.prevent="deleteObject(item.object_name, item._id)">
-                  <v-btn icon>
-                      <v-icon color="grey lighten-1">mdi-delete</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-            </v-list-item>
-            <v-list-item @click="addObject()">
-                <v-btn icon>
-                  <v-icon color="grey lighten-1">mdi-plus</v-icon>
-                </v-btn>
-                <v-list-item-content>
-                  <v-list-item-title>Добавить объект</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-          </v-list-group>
-          <v-list-item link to="/lkabout">
-              <v-list-item-action>
-                <v-icon>mdi-flash</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>Об энергосервисе</v-list-item-title>
-              </v-list-item-content>
-          </v-list-item>
-          <v-list-item link to="/lksettings">
-              <v-list-item-action>
-                <v-icon>mdi-account-circle</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>Личный кабинет</v-list-item-title>
-              </v-list-item-content>
-          </v-list-item>
-        </v-list>
-        <v-list dense>
-          <v-list-item @click.stop="right = !right">
-              <v-list-item-action>
-                <v-icon>mdi-exit-to-app</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>Log out</v-list-item-title>
-              </v-list-item-content>
-          </v-list-item>
-        </v-list>
-    </v-navigation-drawer>
-    <v-content>
         <v-container
           class="fill-height lk-body"
           fluid
@@ -121,8 +41,6 @@
               </v-expansion-panel>
           </v-expansion-panels>
         </v-container>
-    </v-content>
-  </div>
 </template>
 <script> 
 import coolList from "@/views/adminPage.vue";
@@ -191,8 +109,6 @@ import axiosAuth from "@/api/axios-auth"
 }
 .mainLk .v-content__wrap > div{
    display: flex;
-   flex-direction:column;
-   justify-content: flex-start;
 }
 .v-navigation-drawer__content .v-list-item__title {
     font-size: 17px!important;

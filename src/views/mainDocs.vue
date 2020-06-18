@@ -7,8 +7,7 @@
         <v-card
             v-for="(item) in main_files"
             :key="item.key"
-            v-class="{active: item.isActive}"
-            class="pa-3 flex-column main-doc-item"  
+            :class="[{active: item.isActive},'pa-3', 'flex-column', 'main-doc-item']"
             justify="space-between"
             width="16.5%"
             >
@@ -29,7 +28,7 @@
                 @change="handleFileUpload(item.key)"
                 label="Загрузить другой">
             </v-file-input>
-            <v-row :class="{'d-none':page=='false'}" class="mr-2 align-center" justify="space-between" >
+            <v-row :class="[{'d-none':page=='false'},'mr-2', 'align-center']" justify="space-between" >
                 <v-btn 
                     class="ma-2" 
                     color="#232020"
@@ -39,23 +38,12 @@
                 >
                     Скачать
                 </v-btn>
-                <v-btn icon color="#232020" @click="sheet = !sheet">
+                <v-btn icon color="#232020" @click="aproveOrDecline(item)">
                 <v-icon>mdi-menu-down</v-icon>
                 </v-btn>
             </v-row>
         </v-card>
     </v-row>
-    <v-bottom-sheet v-model="sheet">
-        <v-sheet class="text-center" height="200px">
-            <v-btn
-                class="mt-6"
-                text
-                color="red"
-                @click="sheet = !sheet"
-                >close</v-btn>
-            <div class="py-3">This is a bottom sheet using the controlled by v-model instead of activator</div>
-        </v-sheet>
-    </v-bottom-sheet>
     </div>
 </template>
 <script>
@@ -161,6 +149,35 @@ export default {
                 console.log(error.response)
                 this.$alert('Не удалось скачать файл')
             })
+        },
+        aproveOrDecline(object){
+            this.$fire({
+                title: '<strong>'+object.label+'</strong>',
+                input: 'select',
+                inputOptions: {
+                    approved: 'Подтвержден',
+                    fileError: 'Ошибка'
+                },
+                preConfirm: async(r) => {
+                    let result
+                     if (r == "fileError") {
+                            const { value: comment } =  await this.$fire({
+                                title: `Введите коментарий к отклоненному файлу`,
+                                input: 'text',
+                                confirmButtonText:'Отправить',
+                            })
+                            
+                            result =  {"result":r,"comment":comment}
+                    }
+                    else result = {"result":r,"comment":""}
+                    console.log(result)
+                },
+                inputPlaceholder: 'Выберите действие над файлом',
+                showCloseButton: true,
+                focusConfirm: false,
+                confirmButtonText:'Продолжить',
+                confirmButtonAriaLabel: '',
+            });
         }
     },
     created(){
@@ -203,5 +220,11 @@ export default {
 }
 .v-dialog__container {
     display: block!important;
+}
+.v-input__append-inner {
+    display: none!important;
+}
+.v-file-input__text {
+    font-size: 0!important;
 }
 </style>
