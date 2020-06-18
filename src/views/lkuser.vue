@@ -15,7 +15,20 @@
               </v-row>
           </v-card>
           <v-spacer style="height: 30px;width: 100%;"></v-spacer>
-
+          <v-list-item three-line>
+              <v-list-item-content>
+                <v-list-item-title class="headline mb-1">Фото профиля</v-list-item-title>
+                <v-list-item-subtitle>Формат и размер</v-list-item-subtitle>
+              </v-list-item-content>
+          </v-list-item>
+          <v-row class="mx-10 align-center" >
+              <v-col class="photo-settings" cols="12" md="7" justify="space-around">
+                <v-avatar color="#232020" size="200">
+                    <span class="white--text headline">ИИ</span>
+                </v-avatar>
+                <v-btn    x-large color="#232020" dark>Загрузить изображение</v-btn>
+              </v-col>
+          </v-row>
           <v-spacer style="height: 30px;width: 100%;"></v-spacer>
           <v-card
               class="mx-auto"
