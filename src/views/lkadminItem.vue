@@ -1,48 +1,4 @@
 <template>  
-  <div class="mainLk">
-    <v-navigation-drawer
-        v-model="drawer"
-        app
-        clipped
-        class="dark flex-column"
-        >
-        <v-list dense class="mainmenulk">
-          <v-list-item >
-              <v-list-item-action>
-                <v-img src="@/assets/img/3.png" contain  height="50px" width="50px"></v-img>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title class="logolk">Личный кабинет</v-list-item-title>
-              </v-list-item-content>
-          </v-list-item>
-          <v-list-item >
-              <v-list-item-action>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title class="userName">Администратор</v-list-item-title>
-              </v-list-item-content>
-          </v-list-item>
-          <v-list-item link to="/lkadmin">
-              <v-list-item-action>
-                <v-icon>mdi-view-dashboard</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>Пользователи</v-list-item-title>
-              </v-list-item-content>
-          </v-list-item>
-        </v-list>
-        <v-list dense>
-          <v-list-item>
-              <v-list-item-action>
-                <v-icon>mdi-exit-to-app</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>Log out</v-list-item-title>
-              </v-list-item-content>
-          </v-list-item>
-        </v-list>
-    </v-navigation-drawer>
-    <v-content>
         <v-container
           class="fill-height lk-body lk-admin"
           fluid
@@ -81,6 +37,7 @@
                                 <v-text-field
                                   v-model="firstname"
                                   outlined
+                                  disabled
                                   label="Имя"
                                   ></v-text-field>
                             </v-col>
@@ -89,22 +46,10 @@
                                 md="3"
                                 >
                                 <v-text-field
-                                  v-model="firstname"
+                                  v-model="orgname"
                                   outlined
                                   disabled
                                   label="Наименование организации"
-                                  ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="3"
-                                >
-                                <v-text-field
-                                  v-model="firstname"
-                                  outlined
-                                  disabled
-                                  autocomplete="current-password"
-                                  label="Пароль"
                                   ></v-text-field>
                             </v-col>
                           </v-row>
@@ -114,7 +59,7 @@
                                 md="3"
                                 >
                                 <v-text-field
-                                  v-model="firstname"
+                                  v-model="lastname"
                                   outlined
                                   disabled
                                   label="Фамилия"
@@ -125,7 +70,7 @@
                                 md="3"
                                 >
                                 <v-text-field
-                                  v-model="firstname"
+                                  v-model="phone"
                                   outlined
                                   disabled
                                   label="Телефон"
@@ -138,7 +83,7 @@
                                 md="3"
                                 >
                                 <v-text-field
-                                  v-model="firstname"
+                                  v-model="secondname"
                                   outlined
                                   disabled
                                   label="Отчество"
@@ -149,7 +94,7 @@
                                 md="3"
                                 >
                                 <v-text-field
-                                  v-model="firstname"
+                                  v-model="email"
                                   outlined
                                   disabled
                                   label="E-mail"
@@ -187,13 +132,11 @@
               <v-expansion-panel key="uuteAct">
                 <v-expansion-panel-header>Акт приемки на коммерческий учет УУТЭ</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                    <simpleList page="true"></simpleList>
+                    <simpleList page="true" item = uuteItem></simpleList>
                 </v-expansion-panel-content>
               </v-expansion-panel>
           </v-expansion-panels>
         </v-container>
-    </v-content>
-  </div>
 </template>
 <script>
 import coolList from "@/views/adminPage.vue";
@@ -210,6 +153,7 @@ import mainDocs from "@/views/mainDocs.vue";
     },
     data: () => ({
       drawer: null,
+      uuteItem: []
     }),
     created () {
     },
