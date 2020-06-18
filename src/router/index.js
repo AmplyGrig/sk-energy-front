@@ -186,10 +186,12 @@ router.beforeEach((to, from, next) => {
       // if (!requireRole.includes(response.data.me.role[0])){
       //   next('/')
       // }
-      if (response.data.me.role[0] == 'user'){
-        next('/lkmain')
-      } else if (response.data.me.role[0] == 'admin'){
-        next('/lkadmin')
+      if (from.path === '/sign-in'){
+        if (response.data.me.role[0] == 'user'){
+          next('/lkmain')
+        } else if (response.data.me.role[0] == 'admin'){
+          next('/lkadmin')
+        }
       }
     }).catch(() =>{
       next()
