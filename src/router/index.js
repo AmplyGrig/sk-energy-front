@@ -118,7 +118,7 @@ const routes = [
       { path: "", component: lkadmin },
       { path: ":item", component: lkadminItem },
     ],
-   
+    meta: { requiresAuth: true, requiresRole: [Role.admin]}
   }
 ];
 
