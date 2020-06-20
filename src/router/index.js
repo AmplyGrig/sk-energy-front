@@ -102,23 +102,22 @@ const routes = [
     name:"lk",
     component: lkTemplate,
     children: [
-      { path: "", component: lkMain },
-      { path: "main/:item", component: lkMain },
-      { path: "about", component: lkAbout },
-      { path: "notify", component: lkNotify },
-      { path: "settings", component: lkuser },
+      { path: "", component: lkMain, meta: { requiresRole: [Role.user]} },
+      { path: "main/:item", component: lkMain, meta: { requiresRole: [Role.user]} },
+      { path: "about", component: lkAbout, meta: { requiresRole: [Role.user]} },
+      { path: "notify", component: lkNotify, meta: { requiresRole: [Role.user]} },
+      { path: "settings", component: lkuser, meta: {  requiresRole: [Role.user]} },
     ],
-    meta: { requiresAuth: true, requiresRole: [Role.user]}
+    
   },
   {
     path:"/lkadmin", 
     name:"lkadmin",
     component: lkAdminTemplate,
     children: [
-      { path: "", component: lkadmin },
-      { path: ":item", component: lkadminItem },
+      { path: "", component: lkadmin, meta: { requiresRole: [Role.admin]} },
+      { path: ":item", component: lkadminItem, meta: { requiresRole: [Role.admin]} },
     ],
-    meta: { requiresAuth: true, requiresRole: [Role.admin]}
   }
 ];
 
@@ -139,13 +138,14 @@ router.beforeEach((to, from, next) => {
   let token = localStorage.getItem('token');
 
   let requireRole = to.meta.requiresRole;
-  let requireAuth = to.matched.some(record => record.meta.requiresAuth);
+  console.log(from.path)
+  console.log(to.path)
   
-  if (!requireAuth) {
+  if (!requireRole) {
 		next();
 	}
 
-	if (requireAuth && !token) {
+	if (requireRole && !token) {
 		next('/sign-in');
 	}
 
@@ -167,34 +167,21 @@ router.beforeEach((to, from, next) => {
 		}
   }
 
-	if (requireAuth && token) {
-		axiosAuth.get('/api/verify').then(response => {
-			if (response.data.valid === true) {
-        next();
+  if (typeof requireRole !== 'undefined') {
+    axiosAuth.get('/api/verify').then(response => {
+      console.log(response)
+      if (response.data.valid === false){
+          next('/sign-in')
       }
-      else{
-        next('/sign-in')
-      }
-		}).catch(() => {
-			next('/sign-in');
-		})
-  }
-
-  if (requireRole) {
+    }).catch(() => {
+        next('/sign-in');
+    })
     axiosAuth.get('/api/me').then(response => {
-      // console.log(response.data.me.role)
-      // if (!requireRole.includes(response.data.me.role[0])){
-      //   next('/')
-      // }
-      if (from.path === '/sign-in'){
-        if (response.data.me.role[0] == 'user'){
-          next('/lkmain')
-        } else if (response.data.me.role[0] == 'admin'){
-          next('/lkadmin')
-        }
+      if (response.data.me.role[0] === requireRole[0]){
+        next()
       }
     }).catch(() =>{
-      next()
+      next(false)
     })
   }
 });

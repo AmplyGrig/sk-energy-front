@@ -12,7 +12,7 @@
             width="16.5%"
             >
             <span class="logoMainDoc">{{item.label}}</span>
-            <v-file-input v-if="item.isAppload===false"
+            <v-file-input v-if="item.isAppload===false && item.isApprove === false"
                 v-model="item.file"
                 :class="{'d-none':page=='true'}" 
                 :v-name="item.key"
@@ -20,7 +20,7 @@
                 @change="handleFileUpload(item.key)"
                 label="Загрузить">
             </v-file-input>
-            <v-file-input v-else
+            <v-file-input v-else-if="item.isAppload === true && item.isApprove === false"
                 v-model="item.file"
                 :class="{'d-none':page=='true'}" 
                 :v-name="item.key"
@@ -28,6 +28,7 @@
                 @change="handleFileUpload(item.key)"
                 label="Загрузить другой">
             </v-file-input>
+            <v-col v-else-if="role !== 'admin'"><v-icon>mdi-check</v-icon></v-col>
             <v-row :class="[{'d-none':page=='false'},'mr-2', 'align-center']" justify="space-between" >
                 <v-btn 
                     class="ma-2" 
@@ -38,8 +39,11 @@
                 >
                     Скачать
                 </v-btn>
-                <v-btn icon color="#232020" @click="aproveOrDecline(item)">
+                <v-btn icon color="#232020" v-if="item.isAppload && !item.isApprove" @click="aproveOrDecline(item)">
                 <v-icon>mdi-menu-down</v-icon>
+                </v-btn>
+                <v-btn icon color="#232020" v-else-if="item.isAppload && item.isApprove">
+                <v-icon>mdi-check</v-icon>
                 </v-btn>
             </v-row>
         </v-card>
@@ -55,6 +59,7 @@ export default {
     props: ['page'],
     data() {
         return {
+            role: localStorage.getItem('role'),
             sheet: false,
             isActive:false,
             main_files: {
@@ -62,45 +67,45 @@ export default {
                     file: null,
                     label:"Паспорт ПУТЭ",
                     key:"passport_pute",
-                    isAppload: false
+                    isAppload: false,
+                    isApprove: false
                 },
                 project_uute: {
                     file: null,
                     label:"Проект УУТЭ",
                     key:"project_uute",
-                    isAppload: false
+                    isAppload: false,
+                    isApprove: false
                 },
                 tech_conditions: {
                     file: null,
                     label:"Тех. условия на присоединение",
                     key:"tech_conditions",
-                    isAppload: false
+                    isAppload: false,
+                    isApprove: false
                 },
                 tech_passport: {
                     file: null,
                     label:"Технический паспорт",
                     key:"tech_passport",
-                    isAppload: false
+                    isAppload: false,
+                    isApprove: false
                 },
                 cadastr_passport: {
                     file: null,
                     label:"Кадастровый паспорт",
                     key:"cadastr_passport",
-                    isAppload: false
+                    isAppload: false,
+                    isApprove: false
                 },
                 recvisits: {
                     file: null,
                     label:"Реквизиты",
                     key:"recvisits",
-                    isAppload: false
+                    isAppload: false,
+                    isApprove: false
                 },
             },
-        }
-    },
-    watch: {
-        '$route.params': function() {
-            location.reload();
-            this.getUploadedMainFiles()
         }
     },
     methods: {
@@ -128,9 +133,13 @@ export default {
             })
         },
         getUploadedMainFiles(){
-            axiosAuth.post('/get-main-files', { object_id: this.$route.params.item} ).then(response => {
+            console.log(this.main_files)
+            axiosAuth.post('/get-main-files', { object_id: this.$route.params.item } )
+            .then(response => {
+                console.log(response.data.uploaded_files)
                 for (let key in response.data.uploaded_files){
                     this.main_files[key].isAppload = true
+                    this.main_files[key].isApprove = response.data.uploaded_files[key].is_approve
                 }
             }).catch(error => {
                 console.log(error)
@@ -159,18 +168,31 @@ export default {
                     fileError: 'Ошибка'
                 },
                 preConfirm: async(r) => {
-                    let result
-                     if (r == "fileError") {
-                            const { value: comment } =  await this.$fire({
-                                title: `Введите коментарий к отклоненному файлу`,
-                                input: 'text',
-                                confirmButtonText:'Отправить',
-                            })
-                            
-                            result =  {"result":r,"comment":comment}
+                    if (r == "fileError") {
+                        const { value: comment } =  await this.$fire({
+                            title: `Введите коментарий к отклоненному файлу`,
+                            input: 'textarea',
+                            confirmButtonText:'Отправить',
+                        })
+                        
+                        axiosAuth.post('/add-comment-to-main-file', { object_id: this.$route.params.item, object_key: object.key, comment: comment })
+                        .then((response => {
+                            console.log(response)
+                        }))
+                        .catch((error) => {
+                            console.log(error)
+                        })
                     }
-                    else result = {"result":r,"comment":""}
-                    console.log(result)
+                    else {
+                        axiosAuth.post('/approve-main-file', { object_id: this.$route.params.item, object_key: object.key })
+                        .then((response => {
+                            console.log(response)
+                            location.reload()
+                        }))
+                        .catch((error) => {
+                            console.log(error)
+                        })
+                    }
                 },
                 inputPlaceholder: 'Выберите действие над файлом',
                 showCloseButton: true,

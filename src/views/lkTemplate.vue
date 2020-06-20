@@ -31,7 +31,7 @@
                 <v-list-item-title>Объекты</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item v-for="item in objectsItems" v-bind:key="item._id" :to="'/lk/main/'+item._id">
+            <v-list-item v-for="item in objectsItems" v-bind:key="item._id" :href="'/lk/main/'+item._id">
                 <v-list-item-content>
                   <v-list-item-title>{{item.object_name}}</v-list-item-title>
                 </v-list-item-content>
@@ -68,7 +68,7 @@
           </v-list-item>
         </v-list>
         <v-list dense>
-          <v-list-item @click.stop="right = !right">
+          <v-list-item @click="onLogOut()">
               <v-list-item-action>
                 <v-icon>mdi-exit-to-app</v-icon>
               </v-list-item-action>
@@ -141,6 +141,9 @@ import axiosAuth from "@/api/axios-auth"
           console.log(error)
           this.$alert('Не удалось получить список объектов')
         })
+      },
+      onLogOut(){
+        this.$store.dispatch('auth/logout')
       }
     },
     created () {

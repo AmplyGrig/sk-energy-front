@@ -9,8 +9,10 @@
               <mainDocs page="false" 
                 v-if="Object.keys(this.$route.params).length !== 0"
               ></mainDocs>
+              
           </v-card>
           <v-spacer style="max-height: 50px; height:50px; width: 100%;"></v-spacer>
+
           <v-expansion-panels
               v-if="Object.keys(this.$route.params).length !== 0"
               multiple
