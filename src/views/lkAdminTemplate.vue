@@ -32,7 +32,7 @@
           </v-list-item>
         </v-list>
         <v-list dense>
-          <v-list-item>
+          <v-list-item @click="onLogOut()"> 
               <v-list-item-action>
                 <v-icon>mdi-exit-to-app</v-icon>
               </v-list-item-action>
@@ -52,6 +52,11 @@
   export default {
     components: {
     },
+    methods: {
+      onLogOut(){
+        this.$store.dispatch('auth/logout')
+      }
+    }
   }
 </script>
 <style>
@@ -66,6 +71,7 @@
 }
 .v-navigation-drawer__content .v-list-item__title {
     font-size: 17px!important;
+    line-height: 2rem;
 }
 .container.fill-height {
     align-items: center;

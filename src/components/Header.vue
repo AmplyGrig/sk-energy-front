@@ -38,9 +38,21 @@
           ]"
         >
           <a href="tel:+7 (4112) 711347">+7 (4112) 711347</a>
-          <a class="lk" href="/lkmain">
-            <img src="@/assets/img/lk_user.png" />
-          </a>
+          <template v-if="!this.role">
+            <a class="lk" href="/sign-in">
+              <img src="@/assets/img/lk_user.png" />
+            </a>
+          </template>
+          <template v-else-if="this.role === 'admin'">
+            <a class="lk" href="/lkadmin">
+              <img src="@/assets/img/lk_user.png" />
+            </a>
+          </template>
+          <template v-else-if="this.role === 'user'">
+            <a class="lk" href="/lk">
+              <img src="@/assets/img/lk_user.png" />
+            </a>
+          </template>
         </div>
       </nav>
       <slot name="content-block"></slot>
@@ -52,6 +64,7 @@
 <script>
 import "@/assets/css/main.css";
 import { ResponsiveMixin } from "vue-responsive-components";
+
 export default {
   name: "Header",
   computed: {
@@ -61,8 +74,11 @@ export default {
   },
   data: function() {
     return {
-      headerItems: this.$store.state.headerItems
+      headerItems: this.$store.state.headerItems,
     };
+  },
+  created(){
+      this.role = localStorage.getItem('role')
   },
   mixins: [ResponsiveMixin],
   breakpoints: {

@@ -32,9 +32,12 @@ const actions = {
 			}).then(response => {
 				if (response.data.access_token) {
 					commit('authUser', { email: authData.email, token: response.data.access_token });
+					const tokenParts = response.data.access_token.split('.')
+					const body = JSON.parse(atob(tokenParts[1]))
+					localStorage.setItem('role', body.scopes[0])
 					localStorage.setItem('token', response.data.access_token);
 					localStorage.setItem('email', authData.email);
-					router.replace('/lkmain');
+					router.replace('/lk');
 					resolve(response)
 				} 
 				else {
@@ -59,6 +62,7 @@ const actions = {
 		commit('clearAuthData');
 		localStorage.removeItem('email');
 		localStorage.removeItem('token');
+		localStorage.removeItem('role');
 		router.replace('/sign-in');
 	},
 };

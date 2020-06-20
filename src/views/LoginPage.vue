@@ -88,7 +88,7 @@ export default {
             email: '',
             password: '',
             invalidCredentials: false,
-            authError: ''
+            authError: '',
         }
     },
     methods: {
@@ -98,7 +98,12 @@ export default {
                 password: this.password,
             }
             this.$store.dispatch('auth/login', formData).then(() => {
-                this.$router.push('/lkmain');
+                let role = localStorage.getItem('role')
+                if (role === 'admin'){
+                    this.$router.push('/lkadmin');
+                }else {
+                    this.$router.push('/lk');
+                }
             }, (error) => {
                 this.authError = error.response.data.reasons[0]
             })
