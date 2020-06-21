@@ -26,7 +26,7 @@
                 </v-list-item-content>
               </v-list-item>
               <v-container>
-                <v-form v-model="valid">
+                <v-form>
                     <v-row>
                       <v-col
                           cols="12"
@@ -43,20 +43,9 @@
                           md="3"
                           >
                           <v-text-field
-                            v-model="firstname"
+                            v-model="company_name"
                             outlined
                             label="Наименование организации"
-                            ></v-text-field>
-                      </v-col>
-                      <v-col
-                          cols="12"
-                          md="3"
-                          >
-                          <v-text-field
-                            v-model="firstname"
-                            outlined
-                            type="password"
-                            label="Пароль"
                             ></v-text-field>
                       </v-col>
                     </v-row>
@@ -66,7 +55,7 @@
                           md="3"
                           >
                           <v-text-field
-                            v-model="firstname"
+                            v-model="lastname"
                             outlined
                             label="Фамилия"
                             ></v-text-field>
@@ -76,7 +65,7 @@
                           md="3"
                           >
                           <v-text-field
-                            v-model="firstname"
+                            v-model="phone"
                             outlined
                             label="Телефон"
                             ></v-text-field>
@@ -88,7 +77,7 @@
                           md="3"
                           >
                           <v-text-field
-                            v-model="firstname"
+                            v-model="middlename"
                             outlined
                             label="Отчество"
                             ></v-text-field>
@@ -98,13 +87,13 @@
                           md="3"
                           >
                           <v-text-field
-                            v-model="firstname"
+                            v-model="email"
                             outlined
                             label="E-mail"
                             ></v-text-field>
                       </v-col>
                     </v-row>
-                    <v-btn class="ma-2" outlined color="#232020">Сохранить</v-btn>
+                    <v-btn class="ma-2"  @click='updateMyUser()' outlined color="#232020">Сохранить</v-btn>
                 </v-form>
               </v-container>
           </v-card>
@@ -119,14 +108,16 @@
                 </v-list-item-content>
               </v-list-item>
               <v-container>
-                <v-form v-model="settings">
+                <v-form>
                     <v-checkbox
                       v-model="checkbox1"
+                      @change="updateMyUserFlag()"
                       label="Уведомлять об изменении статуса документа по почте"
                       required
                       ></v-checkbox>
                     <v-checkbox
                       v-model="checkbox2"
+                      @change="updateMyUserFlag()"
                       label="Напоминать о добавлении нового документа ежемесячно"
                       required
                       ></v-checkbox>
@@ -136,20 +127,74 @@
         </v-container>
 </template>
 <script> 
+import axiosAuth from "@/api/axios-auth"
 export default {
     props: {
       source: String,
     },
     data: () => ({
+      firstname: '',
+      middlename: '',
+      lastname: '',
+      phone: '',
+      email: '',
+      company_name: '',
       drawer: null,
       objectsItems: '',
+      checkbox1:false,
+      checkbox2: false,
       name: localStorage.getItem('email')
     }),
     methods: {
       logout(){
         this.$store.dispatch('auth/logout')
+      },
+      getMyUser(){
+        axiosAuth.get('/get-my-user').then(response => {
+          let userInfo = response.data
+          this.firstname = userInfo.user_name.split(' ')[0]
+          this.middlename = userInfo.user_name.split(' ')[1]
+          this.lastname = userInfo.user_name.split(' ')[2]
+          this.email = userInfo.email
+          this.company_name = userInfo.company_name
+          this.phone = userInfo.phone
+          this.checkbox1 = userInfo.allowEmail
+          this.checkbox2 = userInfo.notifyByEmail
+        }).catch((error) => {
+          console.log(error)
+          this.$alert('Не удалось получить информацию о пользователе')
+        })
       }
-    }
+      ,
+      updateMyUser(){
+        let dataToPost = {
+            "email": this.email,
+            "user_name": [this.firstname, this.middlename, this.lastname].join(' '),
+            "phone": this.phone,
+            "company_name": this.company_name,
+        }
+        axiosAuth.post('/update-my-user',dataToPost).then(() => {
+          this.$alert('Информация изменена')
+        }).catch((error) => {
+          console.log(error)
+            this.$alert('Не удалось изменить информацию о пользователе')
+        })
+      },      
+      updateMyUserFlag(){
+        let dataToPost = {
+          "allowEmail": this.checkbox1, 
+          "notifyByEmail": this.checkbox2  
+        }
+        axiosAuth.post('/update-my-user',dataToPost).then(() => {
+        }).catch((error) => {
+          console.log(error)
+            this.$alert('Не удалось изменить информацию о пользователе')
+        })
+      }
+    },
+    created () {
+      this.getMyUser()
+    },
 }
 </script>
 <style>

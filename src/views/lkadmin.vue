@@ -21,7 +21,7 @@
           <v-card  class="mx-auto"
               width="100%"
               >
-              <v-simple-table>
+              <v-simple-table fixed-header height="80%">
                   <template v-slot:default>
                     <thead>
                       <tr>
