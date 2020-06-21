@@ -8,6 +8,7 @@
               >
               <v-row  class="mx-10" >
                 <v-text-field
+                    v-model="search"
                     label="Искать"
                     prepend-inner-icon="mdi-magnify"
                     ></v-text-field>
@@ -16,44 +17,30 @@
           <v-spacer style="max-height: 30px; height:30px; width: 100%;"></v-spacer>
           <div class="logoUsers">
               <v-list-item-content>Пользователи</v-list-item-content>
-              <v-overflow-btn
-                class="my-2"
-                outlined
-                color="white"
-                items="['по дате', 'по алфавиту']"
-                label="Сортировать"
-                target="#dropdown-example-1"
-                ></v-overflow-btn>
           </div>
           <v-card  class="mx-auto"
               width="100%"
               >
-              <v-list>
-                <template v-for="(item, index) in usersList">
-                    <v-divider
-                      v-if="index > 0"
-                      :key="index"
-                      ></v-divider>
-                    <v-list-item
-                      :key="item"
-                      >
-                      <v-list-item-avatar>
-                          <v-avatar color="#232020" >
-                            <span class="white--text headline">ИИ</span>
-                          </v-avatar>
-                      </v-list-item-avatar>
-                      <v-list-item-content>
-                          <v-list-item-title>{{item.user_name}}</v-list-item-title>
-                      </v-list-item-content>
-                      <v-list-item-content>
-                          {{item.object_name}}
-                      </v-list-item-content>
-                      <v-list-item-icon>
-                          <v-btn   :to="'/lkadmin/' + item.object_id"  color="#232020" dark>Смотреть</v-btn>
-                      </v-list-item-icon>
-                    </v-list-item>
-                </template>
-              </v-list>
+              <v-simple-table>
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th v-for="(column, index) in columns" :key="index">
+                        <a href="#" @click="sortBy(column)" :class="{ active: sortKey === getsrc[column] }">
+                          {{ column }}
+                        </a>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr  v-for="(item, index) in filteredList" :key="index">
+                        <td>{{ item.user_name }}</td>
+                        <td>{{ item.object_name }}
+                        <td><v-btn   :to="'/lkadmin/' + item.object_id"  color="#232020" dark>Смотреть</v-btn></td>
+                      </tr>
+                    </tbody>
+                  </template>
+              </v-simple-table>
           </v-card>
         </v-container>
 </template>
@@ -65,8 +52,12 @@ export default {
     source: String,
   },
   data: () => ({
-    drawer: null,
-    usersList: null
+    usersList: [],
+    sortKey: 'user_name',
+    reverse: false,
+    search: '',
+    columns: [ 'ФИО', 'Название объекта', '' ],
+    getsrc: {'ФИО' : 'user_name', 'Название объекта' : 'object_name'}
   }),
   methods: {
     logout(){
@@ -79,11 +70,30 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+    sortBy(sortKey) {
+      this.reverse = (this.sortKey == sortKey) ? !this.reverse : false;
+      this.sortKey = this.getsrc[sortKey];
+      console.log(this.sortKey)
     }
   },
   created(){
     this.getUserList()
-  }
+  },
+  computed: {
+    sortedUsers() {
+      const k = this.sortKey
+      let tmp = this.usersList
+      return tmp.sort((a, b) => {
+        return (a[k] < b[k] ? -1 : a[k] > b[k] ? 1 : 0) * [ 1, -1 ][+this.reverse];
+      });
+    },
+    filteredList() {
+      return this.sortedUsers.filter(post => {
+        return post.user_name.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
+  },
 }
 </script>
 <style>
@@ -113,6 +123,9 @@ div.logoUsers {
 }
 .v-list-item__title, .v-btn__content{
 font-family: "Exo 2"!important;
+}
+table a.active {
+  color: black!important;
 }
 
 </style>
