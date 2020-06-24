@@ -117,7 +117,7 @@ import axiosAuth from "@/api/axios-auth"
             this.getObjectList()
           }).catch(error => {
             console.log(error)
-            this.$alert('Не удалось добавить объект')
+            this.$alert(error.response.data.reasons[0])
           })
         })
       },

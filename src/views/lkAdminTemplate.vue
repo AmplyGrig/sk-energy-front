@@ -69,9 +69,11 @@
 .mainLk .v-content__wrap > div{
    display: flex;
 }
+.v-list--dense .v-list-item .v-list-item__title{
+    line-height: 2rem;
+}
 .v-navigation-drawer__content .v-list-item__title {
     font-size: 17px!important;
-    line-height: 2rem;
 }
 .container.fill-height {
     align-items: center;
@@ -79,5 +81,6 @@
     flex-wrap: wrap;
     min-width: 100%!important;
     min-height: 100vh!important;
+    flex-direction: column;
 }
 </style>

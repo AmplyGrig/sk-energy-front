@@ -39,11 +39,14 @@
                 >
                     Скачать
                 </v-btn>
-                <v-btn icon color="#232020" v-if="item.isAppload && !item.isApprove" @click="aproveOrDecline(item)">
+                <v-btn icon color="#232020" v-if="item.isAppload && !item.isApprove && !item.isCommented" @click="aproveOrDecline(item)">
                 <v-icon>mdi-menu-down</v-icon>
                 </v-btn>
-                <v-btn icon color="#232020" v-else-if="item.isAppload && item.isApprove">
+                <v-btn icon color="#232020" v-else-if="item.isAppload && item.isApprove && !item.isCommented">
                 <v-icon>mdi-check</v-icon>
+                </v-btn>
+                <v-btn icon color="#232020" v-else-if="item.isAppload && !item.isApprove && item.isCommented">
+                <v-icon>mdi-close</v-icon>
                 </v-btn>
             </v-row>
         </v-card>
@@ -68,42 +71,48 @@ export default {
                     label:"Паспорт ПУТЭ",
                     key:"passport_pute",
                     isAppload: false,
-                    isApprove: false
+                    isApprove: false,
+                    isCommented: false
                 },
                 project_uute: {
                     file: null,
                     label:"Проект УУТЭ",
                     key:"project_uute",
                     isAppload: false,
-                    isApprove: false
+                    isApprove: false,
+                    isCommented: false
                 },
                 tech_conditions: {
                     file: null,
                     label:"Тех. условия на присоединение",
                     key:"tech_conditions",
                     isAppload: false,
-                    isApprove: false
+                    isApprove: false,
+                    isCommented: false
                 },
                 tech_passport: {
                     file: null,
                     label:"Технический паспорт",
                     key:"tech_passport",
                     isAppload: false,
-                    isApprove: false
+                    isApprove: false,
+                    isCommented: false
                 },
                 cadastr_passport: {
                     file: null,
                     label:"Кадастровый паспорт",
                     key:"cadastr_passport",
                     isAppload: false,
-                    isApprove: false
+                    isApprove: false,
+                    isCommented: false
                 },
                 recvisits: {
                     file: null,
                     label:"Реквизиты",
                     key:"recvisits",
                     isAppload: false,
-                    isApprove: false
+                    isApprove: false,
+                    isCommented: false
                 },
             },
         }
@@ -141,6 +150,7 @@ export default {
                 for (let key in response.data.uploaded_files){
                     this.main_files[key].isAppload = true
                     this.main_files[key].isApprove = response.data.uploaded_files[key].is_approve
+                    this.main_files[key].isCommented = response.data.uploaded_files[key].comment.content
                 }
             }).catch(error => {
                 console.log(error)
@@ -148,7 +158,7 @@ export default {
             })
         },
         downloadFile(object_key){
-            axiosAuth.post('/download-file', { object_id: this.$route.params.item, object_key: object_key}, {responseType: "blob"} ).then(response => {
+            axiosAuth.post('/download-main-file', { object_id: this.$route.params.item, object_key: object_key}, {responseType: "blob"} ).then(response => {
                 const url = window.URL.createObjectURL(response.data);
                 const link = document.createElement('a');
                 link.href = url;
@@ -171,7 +181,7 @@ export default {
                 preConfirm: async(r) => {
                     if (r == "fileError") {
                         const { value: comment } =  await this.$fire({
-                            title: `Введите коментарий к отклоненному файлу`,
+                            title: `Введите комментарий к отклоненному файлу`,
                             input: 'textarea',
                             confirmButtonText:'Отправить',
                         })
