@@ -127,6 +127,7 @@ export default {
             }
             axiosFiles.post('/upload-main-file', formData).then(() => {
                 this.getUploadedMainFiles()
+                this.$alert('Успешно загружено')
             }).catch(error => {
                 console.log(error)
                 this.$alert('Не удалось загрузить файл')

@@ -5,12 +5,18 @@
           >
           <v-card  class="mx-auto"
               width="100%"
+              v-if="Object.keys(this.$route.params).length !== 0"
               >
               <mainDocs page="false" 
-                v-if="Object.keys(this.$route.params).length !== 0"
+                
               ></mainDocs>
+      
               
           </v-card>
+                <div class="lk-hello" v-else>
+                <h1 class="lk-title">Добро пожаловать в личный кабинет!</h1>
+                <h3 class="lk-subtitle">Для начала работы, нужно добавить или выбрать объект</h3>
+              </div>
           <v-spacer style="max-height: 50px; height:50px; width: 100%;"></v-spacer>
 
           <v-expansion-panels
@@ -121,5 +127,10 @@ import axiosAuth from "@/api/axios-auth"
     flex-wrap: wrap;
     min-width: 100%!important;
     min-height: 100vh!important;
+}
+.lk-hello {
+    text-align: center;
+    padding: 100px 0px;
+    margin: auto;
 }
 </style>
