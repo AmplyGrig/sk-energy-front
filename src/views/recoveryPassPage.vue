@@ -93,7 +93,7 @@ export default {
             }
             axiosAuth.post('/api/reset-password-with-token', reqData).then(() => {
                 this.forgotStep++
-                setTimeout( () => this.$router.push({ path: '/lkmain'}), 5000);
+                setTimeout( () => this.$router.push({ path: '/lk'}), 5000);
             }).catch((error) => {
                 this.registrationError = error.response.data.reasons[0]
             })

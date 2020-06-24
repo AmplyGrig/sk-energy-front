@@ -41,7 +41,7 @@
     },
     data() {
       return{
-        notifyList: [{name:"123",comment:"vse ploha",upload_url:""}],
+        notifyList: [{name:"object1 file",comment:"указан неверный файл",upload_url:""}],
         drawer: null,
         objectsItems: [],
         name: localStorage.getItem('email')
