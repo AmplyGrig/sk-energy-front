@@ -7,7 +7,7 @@ import axios from 'axios'
 import Vuelidate from 'vuelidate'
 import VueSimpleAlert from "vue-simple-alert";
 
-axios.defaults.baseURL = 'http://localhost:2112';
+axios.defaults.baseURL = 'http://185.22.63.196:2112';
 
 
 Vue.config.productionTip = false;

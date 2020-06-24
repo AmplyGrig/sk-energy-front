@@ -35,7 +35,7 @@
                           md="3"
                           >
                           <v-text-field
-                            v-model="userInfo.user_name.split(' ')[0]"
+                            v-model="userInfo.user_name"
                             outlined
                             disabled
                             label="Имя"
@@ -59,7 +59,7 @@
                           md="3"
                           >
                           <v-text-field
-                            v-model="userInfo.user_name.split(' ')[1]"
+                            v-model="userInfo.user_name"
                             outlined
                             disabled
                             label="Фамилия"
@@ -83,7 +83,7 @@
                           md="3"
                           >
                           <v-text-field
-                            v-model="userInfo.user_name.split(' ')[2]"
+                            v-model="userInfo.user_name"
                             outlined
                             disabled
                             label="Отчество"
@@ -138,6 +138,7 @@
     </v-expansion-panels>
   </v-container>
 </template>
+
 <script>
 import coolList from "@/views/adminPage.vue";
 import simpleList from "@/views/simpleList.vue";

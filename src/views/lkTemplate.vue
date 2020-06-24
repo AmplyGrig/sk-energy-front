@@ -16,8 +16,6 @@
               </v-list-item-content>
           </v-list-item>
           <v-list-item >
-              <v-list-item-action>
-              </v-list-item-action>
               <v-list-item-content>
                 <v-list-item-title class="userName">{{ name }}</v-list-item-title>
               </v-list-item-content>
@@ -106,7 +104,7 @@ import axiosAuth from "@/api/axios-auth"
     },
     data() {
       return{
-        messages:0,
+        messages: 0,
         drawer: null,
         objectsItems: [],
         name: localStorage.getItem('email')
@@ -127,6 +125,7 @@ import axiosAuth from "@/api/axios-auth"
         this.$confirm("Вы уверены, что хотите удалить объект?").then(() => {
           axiosAuth.post('/delete-object', { object_name: objectName, object_id: objectId}).then(() => {
             this.getObjectList()
+            this.$router.replace('/lk');
           }).catch(error => {
             console.log(error)
             this.$alert('Не удалось удалить объект')
@@ -141,12 +140,16 @@ import axiosAuth from "@/api/axios-auth"
           this.$alert('Не удалось получить список объектов')
         })
       },
+      getNotifyCount(){
+        this.messages = 1
+      },
       onLogOut(){
         this.$store.dispatch('auth/logout')
       }
     },
     created () {
       this.getObjectList()
+      this.getNotifyCount()
     },
   }
 </script>
@@ -182,5 +185,23 @@ import axiosAuth from "@/api/axios-auth"
     border-color:#151414!important;
     outline: 0;
     box-shadow: 0 0 3px #c4e6f5;
+}
+.theme--light.v-list-item--active:hover::before, .theme--light.v-list-item--active::before {
+    opacity: 0.12;
+    background: #858ac1;
+}
+.theme--light.v-list-item:hover::before {
+    opacity: 0.06;
+    background: #858ac1;
+}
+.mainLk *{
+  color: #232020!important;
+  font-family: "Exo 2"!important;
+}
+.v-list-item--dense .v-list-item__title, .v-list-item--dense .v-list-item__subtitle, .v-list--dense .v-list-item .v-list-item__title, .v-list--dense .v-list-item .v-list-item__subtitle {
+    line-height: 2rem!important;
+}
+.userName {
+    text-align: center;
 }
 </style>

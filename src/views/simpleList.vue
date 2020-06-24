@@ -223,9 +223,6 @@ export default {
 };
 </script>
 <style>
-.year-input button{
-    color: black!important;
-}
 .v-input__icon{
     pointer-events: all!important;
 }
