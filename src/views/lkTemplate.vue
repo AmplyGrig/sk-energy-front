@@ -119,7 +119,7 @@ import axiosAuth from "@/api/axios-auth"
             this.getObjectList()
           }).catch(error => {
             console.log(error)
-            this.$alert('Не удалось добавить объект')
+            this.$alert(error.response.data.reasons[0])
           })
         })
       },
@@ -127,7 +127,6 @@ import axiosAuth from "@/api/axios-auth"
         this.$confirm("Вы уверены, что хотите удалить объект?").then(() => {
           axiosAuth.post('/delete-object', { object_name: objectName, object_id: objectId}).then(() => {
             this.getObjectList()
-            this.$router.replace({name: 'lk_main'})
           }).catch(error => {
             console.log(error)
             this.$alert('Не удалось удалить объект')

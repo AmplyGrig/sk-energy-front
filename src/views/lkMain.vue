@@ -9,10 +9,8 @@
               <mainDocs page="false" 
                 v-if="Object.keys(this.$route.params).length !== 0"
               ></mainDocs>
-              
           </v-card>
           <v-spacer style="max-height: 50px; height:50px; width: 100%;"></v-spacer>
-
           <v-expansion-panels
               v-if="Object.keys(this.$route.params).length !== 0"
               multiple
@@ -20,25 +18,25 @@
               <v-expansion-panel key="teplDocs">
                 <v-expansion-panel-header>Договор теплоснабжения</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                    <simpleList page="false"></simpleList>
+                    <simpleList page="false" list-key="teplDocs"></simpleList>
                 </v-expansion-panel-content>
               </v-expansion-panel>
-              <v-expansion-panel key="energyAct">
+              <v-expansion-panel key="energyActs">
                 <v-expansion-panel-header>Акты поставки энергоресурсов</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                    <coolList page="false"></coolList>
+                    <coolList page="false" list-key="energyActs"></coolList>
                 </v-expansion-panel-content>
               </v-expansion-panel>
-              <v-expansion-panel key="pribor">
+              <v-expansion-panel key="priborStats">
                 <v-expansion-panel-header>Показания приборов учета тепловой энергии</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                    <coolList page="false"></coolList>
+                    <coolList page="false" list-key="priborStats"></coolList>
                 </v-expansion-panel-content>
               </v-expansion-panel>
               <v-expansion-panel key="uuteAct">
                 <v-expansion-panel-header>Акт приемки на коммерческий учет УУТЭ</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                    <simpleList page="false"></simpleList>
+                    <simpleList page="false" list-key="uuteAct"></simpleList>
                 </v-expansion-panel-content>
               </v-expansion-panel>
           </v-expansion-panels>

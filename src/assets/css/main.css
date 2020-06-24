@@ -564,3 +564,12 @@ button.btn.btn-theme.btn-form {
 .three-dots img {
     margin: 0px 8px;
 }
+.v-text-field {
+    padding-top: 0px!important;
+    margin-top: 0px!important;
+    opacity: 1;
+}
+
+.v-sheet.v-card:not(.v-sheet--outlined) {
+    min-height: 75px;
+}
