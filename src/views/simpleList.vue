@@ -9,19 +9,11 @@
     >
       <v-expansion-panel-header >{{item.year}}
         <v-row class="mx-5" justify="end">
-          <template v-if="item.isCommented && page=='false'"> 
+          
+           <template v-if="page === 'false'">
+            <template v-if="item.isCommented && page=='false'"> 
           <v-icon>mdi-close</v-icon>  
           </template> 
-          <v-file-input
-            v-model="item.file"
-            v-if="item.isCommented || !item.isAppload && !item.isUploading"
-            :class="{'d-none':page=='true'}" 
-            multiple 
-            label="File input"
-            @change="handleFileUpload(item.year)"
-          >
-          </v-file-input>
-          <template v-if="page === 'false'">
             <template v-if="item.isUploading"> 
             <v-icon class="mdi-spin">mdi-loading</v-icon>  
             </template>
@@ -32,6 +24,26 @@
             <v-icon>mdi-history</v-icon>  
             </template>
           </template>
+          <v-file-input
+            v-model="item.file"
+            v-if="item.isCommented || !item.isUploading"
+            :class="{'d-none':page=='true'}" 
+            multiple 
+            label="File input"
+            @change="handleFileUpload(item.year)"
+          >
+          </v-file-input>
+          <!-- <template v-if="page === 'false'">
+            <template v-if="item.isUploading"> 
+            <v-icon class="mdi-spin">mdi-loading</v-icon>  
+            </template>
+            <template v-else-if="item.isApprove"> 
+            <v-icon>mdi-check</v-icon>  
+            </template> 
+            <template v-else-if="!item.isCommented && !item.isApprove && item.isAppload"> 
+            <v-icon>mdi-history</v-icon>  
+            </template>
+          </template> -->
           <v-row 
             v-if="item.isAppload"
             :class="{'d-none':page=='false'}" 

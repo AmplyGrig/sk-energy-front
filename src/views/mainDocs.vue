@@ -12,23 +12,34 @@
             width="16.5%"
             >
             <span class="logoMainDoc">{{item.label}}</span>
-            <v-file-input v-if="item.isAppload===false && item.isApprove === false"
+            <v-row class="mx-1" v-if="item.isAppload===false && item.isApprove === false && page=='false'" justify="space-between">
+            <v-file-input 
                 v-model="item.file"
                 :class="{'d-none':page=='true'}" 
                 :v-name="item.key"
-                @focus="item.isAppload=false"
                 @change="handleFileUpload(item.key)"
                 label="Загрузить">
             </v-file-input>
-            <v-file-input v-else-if="item.isAppload === true && item.isApprove === false"
+            </v-row>
+            <v-row class="mx-1" v-else-if="item.isAppload === true && item.isApprove === false && page=='false'" justify="space-between">
+            <v-file-input 
                 v-model="item.file"
                 :class="{'d-none':page=='true'}" 
                 :v-name="item.key"
-                @focus="item.isAppload=false"
                 @change="handleFileUpload(item.key)"
-                label="Загрузить другой">
+                label="Заменить">
+                
             </v-file-input>
-            <v-col v-else-if="role !== 'admin'"><v-icon>mdi-check</v-icon></v-col>
+                <template v-if="!item.isCommented && !item.isApprove && item.isAppload"> 
+                <v-icon>mdi-history</v-icon>  
+                </template>
+                <template v-if="item.isCommented"> 
+                <v-icon>mdi-close</v-icon>  
+                </template> 
+            </v-row>
+            <v-row class="mx-1" v-else-if="role !== 'admin'" justify="space-between">
+            <v-icon>mdi-check</v-icon>
+            </v-row>
             <v-row :class="[{'d-none':page=='false'},'mr-2', 'align-center']" justify="space-between" >
                 <v-btn 
                     class="ma-2" 
@@ -120,10 +131,11 @@ export default {
     methods: {
         handleFileUpload(){
             let formData = new FormData();
-
+            let current
             for (var key in this.main_files){
-                if (this.main_files[key].isAppload == false){
+                // if (this.main_files[key].isAppload == false){
                     if (this.main_files[key].file){
+                        current = key
                         formData.append(
                             'object_file', 
                             this.main_files[key].file, 
@@ -132,10 +144,14 @@ export default {
                         formData.append('object_id', this.$route.params.item)
                         formData.append('object_type', key)
                     }
-                }
+                // }
             }
             axiosFiles.post('/upload-main-file', formData).then(() => {
-                this.getUploadedMainFiles()
+                // this.getUploadedMainFiles()
+                this.$set(this.main_files[current], 'isAppload', true)
+                this.$set(this.main_files[current], 'isApprove', false)
+                this.$set(this.main_files[current], 'isCommented', false)
+                console.log(this.main_files[current])
                 this.$alert('Успешно загружено')
             }).catch(error => {
                 console.log(error)
@@ -148,10 +164,14 @@ export default {
             .then(response => {
                 console.log(response.data.uploaded_files)
                 for (let key in response.data.uploaded_files){
-                    this.main_files[key].isAppload = true
-                    this.main_files[key].isApprove = response.data.uploaded_files[key].is_approve
-                    this.main_files[key].isCommented = response.data.uploaded_files[key].comment.content
+                    this.$set(this.main_files[key], 'isAppload', true)
+                    this.$set(this.main_files[key], 'isApprove', response.data.uploaded_files[key].is_approve)
+                    this.$set(this.main_files[key], 'isCommented', response.data.uploaded_files[key].comment)
+                    // this.main_files[key].isAppload = true
+                    // this.main_files[key].isApprove = response.data.uploaded_files[key].is_approve
+                    // this.main_files[key].isCommented = response.data.uploaded_files[key].comment
                 }
+                console.log(this.main_files)
             }).catch(error => {
                 console.log(error)
                 this.$alert('Не удалось загрузить статус основных файлов')
@@ -224,6 +244,9 @@ export default {
     display: block;
     font-size: 14px;
 }
+.main-doc-item button *{
+ color: white!important;
+}
 .main-doc-item .v-input__slot:before{
     content:unset!important;
 }
@@ -259,5 +282,11 @@ export default {
 }
 .v-file-input__text {
     font-size: 0!important;
+}
+.v-input__slot .v-text-field__slot{
+        max-width: 110px;
+}
+.row.mx-1.justify-space-between {
+    min-height: 40px;
 }
 </style>

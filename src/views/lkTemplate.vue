@@ -2,6 +2,7 @@
   <div class="mainLk">
     <v-navigation-drawer
         v-model="drawer"
+        permanent
         app
         clipped
         class="dark flex-column"
@@ -133,6 +134,7 @@ import axiosAuth from "@/api/axios-auth"
         });
       },
       getObjectList(){
+        document.querySelector("body").style.minWidth = "1200px";
         axiosAuth.get('/get-object-list').then(response => {
           this.objectsItems = response.data.objects
         }).catch((error) => {
@@ -141,7 +143,12 @@ import axiosAuth from "@/api/axios-auth"
         })
       },
       getNotifyCount(){
-        this.messages = 1
+        axiosAuth.get('/get-notify-count').then(response => {
+           this.messages = response.data.messages
+          console.log(response.data.messages)
+        }).catch((error) => {
+          console.log(error)
+        })
       },
       onLogOut(){
         this.$store.dispatch('auth/logout')
@@ -195,7 +202,7 @@ import axiosAuth from "@/api/axios-auth"
     background: #858ac1;
 }
 .mainLk *{
-  color: #232020!important;
+  color: black;
   font-family: "Exo 2"!important;
 }
 .v-list-item--dense .v-list-item__title, .v-list-item--dense .v-list-item__subtitle, .v-list--dense .v-list-item .v-list-item__title, .v-list--dense .v-list-item .v-list-item__subtitle {
@@ -203,5 +210,11 @@ import axiosAuth from "@/api/axios-auth"
 }
 .userName {
     text-align: center;
+}
+.swal2-content{
+    font-family: "Exo 2"!important;
+}
+.swal2 *{
+font-family: "Exo 2"!important;
 }
 </style>

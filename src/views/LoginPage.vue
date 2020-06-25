@@ -94,7 +94,7 @@ export default {
     methods: {
         onSubmit() {
             let formData = {
-                email: this.email,
+                email: this.email.toLowerCase(),
                 password: this.password,
             }
             this.$store.dispatch('auth/login', formData).then(() => {
@@ -155,6 +155,8 @@ export default {
 }
 .panel-header p>a {
     color: yellow;
+    font-size: 17px!important;
+    font-family: "Exo 2"!important;
 }
 .panel-header p {
     color: white;

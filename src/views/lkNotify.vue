@@ -21,9 +21,9 @@
                       <v-list-item-content>
                           {{item.comment}}
                       </v-list-item-content>
-                      <v-list-item-icon>
+                      <!-- <v-list-item-icon>
                           <v-btn   :to="item.upload_url"  color="#232020" dark>Загрузить</v-btn>
-                      </v-list-item-icon>
+                      </v-list-item-icon> -->
                     </v-list-item>
                 </template>
               </v-list>
@@ -31,8 +31,7 @@
         </v-container>
 </template>
 <script> 
-//import axiosAuth from "@/api/axios-auth"
-
+import axiosAuth from "@/api/axios-auth"
   export default {
     components: {
     },
@@ -41,12 +40,45 @@
     },
     data() {
       return{
-        notifyList: [{name:"object1 file",comment:"указан неверный файл",upload_url:""}],
+        notifyList: [],
         drawer: null,
-        objectsItems: [],
+        objectsItems: {
+          'passport_pute':'Паспорт ПУТЭ',
+          'teplDocs': 'Договор теплоснабжения',
+          'project_uute': 'Проект УУТЭ',
+          'tech_conditions':'Тех. условия на присоединение',
+          'tech_passport': 'Технический паспорт',
+          'cadastr_passport': 'Кадастровый паспорт',
+          'recvisits':'Реквизиты',
+          'energyActs': 'Акты поставки энергоресурсов',
+          'priborStats': 'Показания приборов учета тепловой энергии',
+          'uuteAct':'Акт приемки на коммерческий учет УУТЭ',
+        },
+        month:[
+          '','январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'
+        ],
         name: localStorage.getItem('email')
       }
-    }
+    },
+    methods: {
+      getNotify(){
+        axiosAuth.get('/get-notify-list').then(response => {
+         response.data.notify.forEach(item => {
+            let month = ''
+            if (item.year != "")  month = 'за '+this.month[parseInt(item.month)]
+              // if (item.year != "") item.year = 'за '+item.year+
+              this.notifyList.push({'name':'Объект: '+item.object+ ', ошибка в документе \"'+this.objectsItems[item.file_type]+'\" '+month+' ' +item.year,'comment':item.comment,'upload_url':''})
+           });
+          
+          console.log(response.data)
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
+    },
+    created () {
+      this.getNotify()
+    },
   }
 </script>
 <style>

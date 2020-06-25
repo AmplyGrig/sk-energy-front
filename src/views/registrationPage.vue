@@ -258,7 +258,7 @@ export default {
         },
         submit(){
             let dataToPost = {
-                "email": this.emailaddress,
+                "email": this.emailaddress.toLowerCase(),
                 "user_name": [this.username, this.usersubname, this.usersurname].join(' '),
                 "phone": this.phonenumber,
                 "company_name": this.companyname,
@@ -336,6 +336,7 @@ a.form-policy-a {
     color: #1D1D1B!important;
     text-decoration: underline;
 }
+
 .policy-checkbox-wrap {
     display: flex;
     flex-flow: row;

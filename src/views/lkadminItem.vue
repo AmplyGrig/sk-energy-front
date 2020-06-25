@@ -7,11 +7,6 @@
         width="100%"
         >
         <v-list-item>
-          <v-list-item-avatar>
-              <v-avatar color="#232020" >
-                <span class="white--text headline">ИИ</span>
-              </v-avatar>
-          </v-list-item-avatar>
           <v-list-item-content>
               <v-list-item-title>{{ userInfo.user_name }}</v-list-item-title>
           </v-list-item-content>
@@ -28,14 +23,14 @@
           <v-expansion-panel-header>Персональные данные</v-expansion-panel-header>
           <v-expansion-panel-content>
               <v-container>
-                <v-form v-model="valid">
+                <v-form class="user-info-card">
                     <v-row>
                       <v-col
                           cols="12"
                           md="3"
                           >
                           <v-text-field
-                            v-model="userInfo.user_name"
+                            v-model="userInfo.user_name.split(' ')[0]"
                             outlined
                             disabled
                             label="Имя"
@@ -59,7 +54,7 @@
                           md="3"
                           >
                           <v-text-field
-                            v-model="userInfo.user_name"
+                            v-model="userInfo.user_name.split(' ')[2]"
                             outlined
                             disabled
                             label="Фамилия"
@@ -83,7 +78,7 @@
                           md="3"
                           >
                           <v-text-field
-                            v-model="userInfo.user_name"
+                            v-model="userInfo.user_name.split(' ')[1]"
                             outlined
                             disabled
                             label="Отчество"
@@ -185,6 +180,9 @@ export default {
 }
 .v-text-field__slot label {
     font-size: 13px!important;
+}
+.user-info-card *{
+  color:black!important
 }
 .v-btn.v-btn--flat{
           pointer-events: all!important;

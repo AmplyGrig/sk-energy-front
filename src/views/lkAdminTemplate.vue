@@ -1,9 +1,9 @@
 <template>  
   <div class="mainLk">
     <v-navigation-drawer
-        v-model="drawer"
         app
         clipped
+        permanent
         class="dark flex-column"
         >
         <v-list dense class="mainmenulk">
@@ -55,7 +55,14 @@
     methods: {
       onLogOut(){
         this.$store.dispatch('auth/logout')
+      },
+      onCreate(){
+        document.querySelector("body").style.minWidth = "1200px";
       }
+
+    },
+    created(){
+      this.onCreate()
     }
   }
 </script>

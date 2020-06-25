@@ -127,7 +127,8 @@ import axiosAuth from "@/api/axios-auth"
 }
 .lk-hello {
     text-align: center;
-    padding: 100px 0px;
+    padding: 0px;
     margin: auto;
+    margin-top: 17%;
 }
 </style>

@@ -6,7 +6,7 @@
           <v-card  class="mx-auto"
               width="100%"
               >
-              <v-row  class="mx-10" >
+              <v-row  class="mx-10" style="margin-top: 20px;">
                 <v-text-field
                     v-model="search"
                     label="Искать"
@@ -36,6 +36,7 @@
                       <tr  v-for="(item, index) in filteredList" :key="index">
                         <td>{{ item.user_name }}</td>
                         <td>{{ item.object_name }}
+                        <td>{{ item.change_time }}
                         <td><v-btn   :to="'/lkadmin/' + item.object_id"  color="#232020" dark>Смотреть</v-btn></td>
                       </tr>
                     </tbody>
@@ -56,16 +57,32 @@ export default {
     sortKey: 'user_name',
     reverse: false,
     search: '',
-    columns: [ 'ФИО', 'Название объекта', '' ],
-    getsrc: {'ФИО' : 'user_name', 'Название объекта' : 'object_name'}
+    columns: [ 'ФИО', 'Название объекта', 'Время изменения','' ],
+    getsrc: {'ФИО' : 'user_name', 'Название объекта' : 'object_name', 'Время изменения': 'change_time'}
   }),
   methods: {
     logout(){
       this.$store.dispatch('auth/logout')
     },
+    formatDate(date){
+
+      var dd = date.getDate();
+      if (dd < 10) dd = '0' + dd;
+
+      var mm = date.getMonth() + 1;
+      if (mm < 10) mm = '0' + mm;
+
+      var yy = date.getFullYear() 
+
+      return dd + '.' + mm + '.' + yy;
+    },
     getUserList(){
       axiosAuth.get("/get-users").then((response) => {
         console.log(response.data)
+        response.data.users.forEach(element => {
+          let date = new Date(element['change_time'])
+          element['change_time'] = this.formatDate(date)
+        });
         this.usersList = response.data.users
       }).catch(error => {
         console.log(error)
@@ -126,6 +143,17 @@ font-family: "Exo 2"!important;
 }
 table a.active {
   color: black!important;
+}
+.lk-admin table a *{
+  color: white!important;
+}
+.lk-admin .v-btn--icon *{
+  color: black!important;
+}
+
+.v-application--is-ltr .v-text-field .v-input__prepend-inner {
+    margin-right: 0!important;
+    padding-right: 4px;
 }
 
 </style>
