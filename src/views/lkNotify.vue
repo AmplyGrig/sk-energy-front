@@ -67,7 +67,7 @@ import axiosAuth from "@/api/axios-auth"
             let month = ''
             if (item.year != "")  month = 'за '+this.month[parseInt(item.month)]
               // if (item.year != "") item.year = 'за '+item.year+
-              this.notifyList.push({'name':'Объект: '+item.object+ ', ошибка в документе \"'+this.objectsItems[item.file_type]+'\" '+month+' ' +item.year,'comment':item.comment,'upload_url':''})
+              this.notifyList.push({'name':'Объект: '+item.object+ ', ошибка в документе "'+this.objectsItems[item.file_type]+'" '+month+' ' +item.year,'comment':item.comment,'upload_url':''})
            });
           
           console.log(response.data)

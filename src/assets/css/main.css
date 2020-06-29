@@ -7,6 +7,10 @@ a {
     text-decoration: none;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     max-width: 100%;

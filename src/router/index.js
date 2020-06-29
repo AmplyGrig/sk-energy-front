@@ -138,8 +138,6 @@ router.beforeEach((to, from, next) => {
   let token = localStorage.getItem('token');
 
   let requireRole = to.meta.requiresRole;
-  console.log(from.path)
-  console.log(to.path)
   
   if (!requireRole) {
 		next();
@@ -169,7 +167,6 @@ router.beforeEach((to, from, next) => {
 
   if (typeof requireRole !== 'undefined') {
     axiosAuth.get('/api/verify').then(response => {
-      console.log(response)
       if (response.data.valid === false){
           next('/sign-in')
       }

@@ -113,9 +113,7 @@ export default {
         });
     },
     changeDisplayedList(number, from, to) {
-      console.log(number);
       this.startPaginationPage = number;
-      console.log(from, to);
       this.displayedPosts = this.posts.slice(from, to);
     },
     
