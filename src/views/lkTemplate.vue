@@ -41,9 +41,9 @@
                 </v-list-item-action>
             </v-list-item>
             <v-list-item @click="addObject()">
-                <v-btn icon>
-                  <v-icon color="grey lighten-1">mdi-plus</v-icon>
-                </v-btn>
+               <v-list-item-action>
+                  <v-icon>mdi-plus</v-icon>
+                </v-list-item-action>
                 <v-list-item-content>
                   <v-list-item-title>Добавить объект</v-list-item-title>
                 </v-list-item-content>
@@ -83,7 +83,7 @@
               <v-badge
                 :content="messages"
                 :value="messages"
-                color="green"
+                color="yellow"
                 overlap
               >
                  <v-icon >mdi-bell</v-icon>
@@ -216,5 +216,24 @@ import axiosAuth from "@/api/axios-auth"
 }
 .swal2 *{
 font-family: "Exo 2"!important;
+}
+.swal2-title, button.swal2-styled{
+  font-family: "Exo 2"!important;
+}
+
+.v-card:not(.v-sheet--tile):not(.v-card--shaped) {
+    font-weight: bold;
+}
+
+.month-input > i.v-icon.notranslate.mdi.mdi-check.theme--light {
+    left: 75%;
+}
+select.swal2-select {
+    border: 1px solid #161515;
+    outline: none;
+    cursor: pointer;
+}
+.v-content .v-icon.v-icon {
+    color: black!important;
 }
 </style>

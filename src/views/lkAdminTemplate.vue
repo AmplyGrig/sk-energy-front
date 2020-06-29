@@ -16,10 +16,8 @@
               </v-list-item-content>
           </v-list-item>
           <v-list-item >
-              <v-list-item-action>
-              </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title class="userName">Администратор</v-list-item-title>
+                <v-list-item-title class="adminName" left>Администратор</v-list-item-title>
               </v-list-item-content>
           </v-list-item>
           <v-list-item link to="/lkadmin">

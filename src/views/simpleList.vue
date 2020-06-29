@@ -26,7 +26,7 @@
           </template>
           <v-file-input
             v-model="item.file"
-            v-if="item.isCommented || !item.isUploading"
+            v-if="(item.isCommented || !item.isUploading)"
             :class="{'d-none':page=='true'}" 
             multiple 
             label="File input"
@@ -45,12 +45,12 @@
             </template>
           </template> -->
           <v-row 
-            v-if="item.isAppload"
+            
             :class="{'d-none':page=='false'}" 
             class="mx-1 align-center" 
             justify="end"
           >
-            <v-btn icon color="#232020" @click="downloadFile(item.year)"><v-icon>mdi-download</v-icon></v-btn>
+            <v-btn v-if="item.isAppload && !item.isApprove  " icon color="#232020" @click="downloadFile(item.year)"><v-icon>mdi-download</v-icon></v-btn>
             <v-btn 
               icon
               color="#232020" 

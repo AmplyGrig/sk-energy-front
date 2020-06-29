@@ -12,7 +12,7 @@
             width="16.5%"
             >
             <span class="logoMainDoc">{{item.label}}</span>
-            <v-row class="mx-1" v-if="item.isAppload===false && item.isApprove === false && page=='false'" justify="space-between">
+            <v-row class="mx-0" v-if="item.isAppload===false && item.isApprove === false && page=='false'" justify="space-between">
             <v-file-input 
                 v-model="item.file"
                 :class="{'d-none':page=='true'}" 
@@ -21,7 +21,7 @@
                 label="Загрузить">
             </v-file-input>
             </v-row>
-            <v-row class="mx-1" v-else-if="item.isAppload === true && item.isApprove === false && page=='false'" justify="space-between">
+            <v-row class="mx-0" v-else-if="item.isAppload === true && item.isApprove === false && page=='false'" justify="space-between">
             <v-file-input 
                 v-model="item.file"
                 :class="{'d-none':page=='true'}" 

@@ -17,8 +17,7 @@
     </v-card>
     <v-spacer style="max-height: 30px; height:30px; width: 100%;"></v-spacer>
     <v-expansion-panels
-        multiple
-        accordion>
+        multiple>
         <v-expansion-panel key="personalData">
           <v-expansion-panel-header>Персональные данные</v-expansion-panel-header>
           <v-expansion-panel-content>

@@ -12,7 +12,7 @@ axios.defaults.baseURL = 'http://185.22.63.196:2112';
 
 Vue.config.productionTip = false;
 Vue.use(Vuelidate)
-Vue.use(VueSimpleAlert)
+Vue.use(VueSimpleAlert,{confirmButtonText: 'Ок',cancelButtonText: 'Отмена'})
 
 new Vue({
   router,

@@ -11,7 +11,7 @@
                 <div v-if="forgotStep == 1">
                     <div class="wrap-input100 ">
                         <span class="txt1">
-                            Пароль
+                            Новый пароль
                         </span>
                         <input 
                             v-model.trim="$v.password.$model" 
@@ -35,7 +35,7 @@
                     </div>
                     <div class="wrap-input100">
                         <span class="txt1">
-                            Новый пароль
+                            Повторите пароль
                         </span>
                         <input 
                             v-model.trim="$v.newPassword.$model"
