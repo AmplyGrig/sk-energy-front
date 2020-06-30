@@ -214,7 +214,6 @@ export default {
     padding: 12% 20%;
 }
 .login100-form-title {
-    font-family: "Exo-2";
     color: #FFFFFF;
     font-style: normal;
     font-weight: 500;

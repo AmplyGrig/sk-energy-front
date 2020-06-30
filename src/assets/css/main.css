@@ -29,9 +29,15 @@ body {
     border-color: #F61618;
     
 }
+.navbar-phone {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 180px;
+    }
 .validate-error{
     position: absolute;
-    font-family: "Exo-2";
     font-style: normal;
     font-weight: 500;
     font-size: 11px;

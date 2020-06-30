@@ -149,9 +149,7 @@ export default {
   list-style: none;
 }
 
-.navbar-phone {
-  position: relative;
-}
+
 
 .navbar-phone a {
   color: #ffffff!important;
@@ -160,7 +158,6 @@ export default {
   font-weight: 700;
   line-height: 2px;
   text-transform: uppercase;
-  margin-left: 45px;
   transition: 0.2s;
 }
 
