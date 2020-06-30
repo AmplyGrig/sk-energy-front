@@ -28,7 +28,7 @@
             Помогаем снизить затраты на энергоресурсы
           </p>
           <div class="get-consult">
-            <a class="btn btn-theme">Получить консультацию</a>
+            <a class="btn btn-theme" href="#callMe">Получить консультацию</a>
           </div>
         </div>
       </template>
@@ -50,7 +50,7 @@
           <img src="@/assets/img/dot.png" />
           <img src="@/assets/img/dot.png" />
         </div>
-        <callForm></callForm>
+        <callForm id="callMe"></callForm>
       </div>
     </section>
     <Footer></Footer>

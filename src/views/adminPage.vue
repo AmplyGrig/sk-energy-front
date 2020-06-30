@@ -237,10 +237,8 @@ export default {
       
     },
     handleFilesUpload(year){
-      console.log(year)
       let formData = new FormData();
       this.dialog = true
-      console.log(this.file)
       for( var i = 0; i < this.file.length; i++ ){
         let file = this.file[i];
         formData.append('file' + i, file, file.name);

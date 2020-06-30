@@ -31,7 +31,6 @@ export default {
     },
     methods: {
       getPost(){
-          console.log(this.$route.params.slug)
           axios.get("https://jsonplaceholder.typicode.com/posts")
             .then(response => {
                 this.post = response.data[0]

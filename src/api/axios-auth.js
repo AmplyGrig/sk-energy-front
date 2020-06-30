@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'http://185.22.63.196:2112',
+    baseURL: 'http://194.177.20.29:2112',
     headers: {
         'Authorization': {
             toString() {

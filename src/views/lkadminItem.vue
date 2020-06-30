@@ -155,7 +155,6 @@ export default {
   }),
   methods: {
     getUserInfo(){
-      console.log(this.$route.params.item)
       axiosAuth.post('/get-user-info', { object_id: this.$route.params.item }).then((response) => {
         console.log(response)
         this.userInfo = response.data

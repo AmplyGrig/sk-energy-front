@@ -151,7 +151,6 @@ export default {
                 this.$set(this.main_files[current], 'isAppload', true)
                 this.$set(this.main_files[current], 'isApprove', false)
                 this.$set(this.main_files[current], 'isCommented', false)
-                console.log(this.main_files[current])
                 this.$alert('Успешно загружено')
             }).catch(error => {
                 console.log(error)
@@ -159,7 +158,6 @@ export default {
             })
         },
         getUploadedMainFiles(){
-            console.log(this.main_files)
             axiosAuth.post('/get-main-files', { object_id: this.$route.params.item } )
             .then(response => {
                 console.log(response.data.uploaded_files)
@@ -167,11 +165,7 @@ export default {
                     this.$set(this.main_files[key], 'isAppload', true)
                     this.$set(this.main_files[key], 'isApprove', response.data.uploaded_files[key].is_approve)
                     this.$set(this.main_files[key], 'isCommented', response.data.uploaded_files[key].comment)
-                    // this.main_files[key].isAppload = true
-                    // this.main_files[key].isApprove = response.data.uploaded_files[key].is_approve
-                    // this.main_files[key].isCommented = response.data.uploaded_files[key].comment
                 }
-                console.log(this.main_files)
             }).catch(error => {
                 console.log(error)
                 this.$alert('Не удалось загрузить статус основных файлов')

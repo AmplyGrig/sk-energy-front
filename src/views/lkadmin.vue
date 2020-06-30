@@ -91,7 +91,6 @@ export default {
     sortBy(sortKey) {
       this.reverse = (this.sortKey == this.getsrc[sortKey]) ? !this.reverse : false;
       this.sortKey = this.getsrc[sortKey];
-      console.log(this.sortKey)
     }
   },
   created(){

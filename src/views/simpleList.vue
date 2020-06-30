@@ -132,7 +132,6 @@ export default {
                     if (item.is_approve) yearItem.isApprove = true
                 }
               })
-            console.log(this.yearItems)
             });
         }).catch(error => {
             console.log(error)
@@ -154,10 +153,6 @@ export default {
       }
     },
     downloadFile(year){
-      console.log(year)
-      console.log(this.$route.params.item)
-      console.log(this.listKey)
-
       axiosAuth.post('/download-file', 
         { object_id: this.$route.params.item, file_year: year, file_key: this.listKey}, 
         {responseType: "blob"} 
