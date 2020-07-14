@@ -4,6 +4,8 @@
         app
         clipped
         permanent
+        touchless 
+        absolute
         class="dark flex-column"
         >
         <v-list dense class="mainmenulk">

@@ -18,17 +18,16 @@
             <li v-for="(item, index) in footerItems" :key="index">
               <a :href="item.ref">{{ item.text }}</a>
             </li>
-            <li><a href="#">Личный кабинет</a></li>
           </ul>
         </nav>
         <div class="contact-footer">
           <p>
             г.Якутск, ул. Дежнева, 35/1 оф. 03<br />
-            8 (4112) 711347
+           <a href="tel:+7 (4112) 711347">+7 (4112) 711347</a>
           </p>
         </div>
         <div class="designed-by">
-          <p>Design by Just Studio</p>
+          <p><a href="https://just-studio.ru/">Design by Just Studio</a></p>
         </div>
       </div>
     </div>
@@ -93,6 +92,10 @@ export default {
   font-size: 90%;
   font-weight: 400;
   line-height: 30px;
+}
+.contact-footer a {
+    color: white!important;
+    font-family: 'exo 2';
 }
 .contact-footer {
   color: #ffffff;

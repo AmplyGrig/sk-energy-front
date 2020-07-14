@@ -4,6 +4,8 @@
         v-model="drawer"
         permanent
         app
+        touchless 
+        absolute
         clipped
         class="dark flex-column"
         >
@@ -86,7 +88,7 @@
                 color="yellow"
                 overlap
               >
-                 <v-icon >mdi-bell</v-icon>
+                 <v-icon>mdi-bell</v-icon>
               </v-badge>
              </router-link>
          </v-row>

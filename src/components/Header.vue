@@ -29,6 +29,9 @@
             <li v-for="(item, index) in headerItems" :key="index">
               <router-link :to="item.ref">{{ item.text }}</router-link>
             </li>
+            <li>
+              <router-link to="/lk">Личный кабинет</router-link>
+            </li>
           </ul>
         </div>
         <div
@@ -122,14 +125,14 @@ export default {
   position: relative;
 }
 .navbar-right a {
-  margin: 0 30px;
-  color: #ffffff!important;
-  font-family: "Open Sans";
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 30px;
-  text-transform: uppercase;
-  transition: 0.2s;
+    margin: 0 30px;
+    color: #ffffff!important;
+    font-family: "Open Sans";
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 30px;
+    text-transform: uppercase;
+    transition: 0.2s;
 }
 .navbar-right a:hover,
 .navbar-phone a:hover {
@@ -145,7 +148,6 @@ export default {
 }
 .navbar-right ul {
   display: flex;
-  margin-left: 55px;
   list-style: none;
 }
 

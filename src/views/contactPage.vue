@@ -7,7 +7,7 @@
       <h1 class="first-block-title about-title">Свяжитесь с нами</h1>
       <p class="first-block-subtitle">любым удобным способом</p>
       <p class="fist-block-simple">
-        Звоните на 8 (4112) 711347<br /><br />Пишите на почту 711347@mail.ru
+        <a href="tel:+7 (4112) 711347">+7 (4112) 711347</a><br /><br /> <a href="mailto:711347@mail.ru">711347@mail.ru</a>
       </p>
     </div>
 
@@ -72,7 +72,13 @@ export default {
   margin-bottom: 94px;
   margin-top: 48px;
 }
-
+.designed-by a {
+    color: #ffffff!important;
+    font-family: "Exo 2"!important;
+    font-size: 18px!important;
+    font-weight: 400;
+    line-height: 24px!important;
+}
 .get-consult {
   display: inline;
   position: relative;
@@ -97,7 +103,10 @@ export default {
   text-align: center;
   margin-bottom: 10px;
 }
-
+.fist-block-simple a {
+    color: white!important;
+    font-family: 'exo 2';
+}
 .block-h3-subtitle {
   color: #1d1d1b;
   font-family: "Exo 2";

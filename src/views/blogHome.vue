@@ -9,9 +9,9 @@
       :class="['content-block-1', { small: el.is.small, tablet: el.is.tablet }]"
     >
       <div class="container">
-        <h2 class="blog-crumb">
+        <!-- <h2 class="blog-crumb">
           Home <img src="@/assets/img/chevron-small-right.png" alt="" /> Blog
-        </h2>
+        </h2> -->
         <div class="three-dots">
           <img src="@/assets/img/dot.png" />
           <img src="@/assets/img/dot.png" />
@@ -49,7 +49,7 @@
         ></Pagination>
       </div>
     </section>
-    <section
+    <!-- <section
       :class="['content-block-2', { small: el.is.small, tablet: el.is.tablet }]"
     >
       <div class="container">
@@ -69,7 +69,7 @@
           </p>
         </div>
       </div>
-    </section>
+    </section> -->
     <Footer></Footer>
   </div>
 </template>

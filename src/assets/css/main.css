@@ -36,16 +36,16 @@ body {
     justify-content: space-between;
     width: 180px;
     }
-.validate-error{
-    position: absolute;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 11px;
-    line-height: 13px;
-    text-align: left!important;
-    margin: 4px 0 0 8px!important;
-    color: #F61618;
-}
+    .validate-error {
+        position: absolute;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 60%;
+        line-height: 13px;
+        text-align: left!important;
+        margin: 4px 0 0 8px!important;
+        color: #F61618;
+    }
 /* burger */
 /* контейнер меню */
 .menu__box {

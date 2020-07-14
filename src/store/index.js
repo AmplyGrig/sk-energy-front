@@ -10,7 +10,7 @@ export default new Vuex.Store({
       { ref: "/home", text: "О компании" },
       { ref: "/energy", text: "Энергоконсалтинг" },
       { ref: "/blog", text: "Блог" },
-      { ref: "/contact", text: "Контакты" }
+      { ref: "/contact", text: "Контакты" },
     ]
   },
   mutations: {},

@@ -29,6 +29,7 @@
             v-if="(item.isCommented || !item.isUploading)"
             :class="{'d-none':page=='true'}" 
             multiple 
+            accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" 
             label="File input"
             @change="handleFileUpload(item.year)"
           >

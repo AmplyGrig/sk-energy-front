@@ -17,6 +17,7 @@
                 v-model="item.file"
                 :class="{'d-none':page=='true'}" 
                 :v-name="item.key"
+                accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" 
                 @change="handleFileUpload(item.key)"
                 label="Загрузить">
             </v-file-input>
@@ -26,6 +27,7 @@
                 v-model="item.file"
                 :class="{'d-none':page=='true'}" 
                 :v-name="item.key"
+                accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" 
                 @change="handleFileUpload(item.key)"
                 label="Заменить">
                 

@@ -9,9 +9,9 @@
                 <h1 class='first-block-title about-title'>Энергоконсалтинг:</h1>
                 <p class='first-block-subtitle'>консультации по электроэнергии и оптимизация<br/>ваших расходов</p>
         </div>
-        <section :class="['content-block-1 content-block-after', { small: el.is.small, tablet:  el.is.tablet}]">
+        <section :class="['content-block-1', { small: el.is.small, tablet:  el.is.tablet}]">
         <div class="container">
-            <h2 class="block-title">Как сэкономить на теплоснабжении?</h2>
+            <h2 class="block-title">Как сэкономить на электроснабжении?</h2>
             <div class="three-dots">
                 <img src="@/assets/img/dot.png"/>
                 <img src="@/assets/img/dot.png"/>
